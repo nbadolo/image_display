@@ -45,6 +45,9 @@ file_AOLP_star_bs = fdir_star+ fname1 +'_AOLP'+ fname2 +'_AOLP.fits'
 file_lst_bs = [file_I_star_bs,file_PI_star_bs,file_DOLP_star_bs,file_AOLP_star_bs]
 nFrames_bs = len(file_lst_bs)
 #%%
+"""
+### Parameters
+"""
 nDim = 1024
 nSubDim = 200 # plage de pixels que l'on veut afficher
 size = (nSubDim, nSubDim)
