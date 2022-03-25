@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Dec 14 15:15:09 2021
+Created on Wed Jan 26 15:24:55 2022
 
 @author: nbadolo
 """
 
+
 """
-Code simplifié de Mira  et de sa psf: flux et profile
+Code simplifié de Psi_phe et de sa psf: flux et profile
 """
 
 import numpy as np
@@ -19,8 +20,8 @@ import matplotlib.colors as colors
 from matplotlib.pyplot import Figure, subplot
 #%%
 fdir='/home/nbadolo//Bureau/Aymard/Donnees_sph/'
-fdir_star=fdir+'star/Mira/'
-fdir_psf=fdir+'psf/HD204971_mira/'
+fdir_star=fdir+'star/Psi_Phe/'
+fdir_psf=fdir+'psf/HD19887_psi_phe/'
 fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
 fname2='-zpl_science_p23_REDUCED'
 file_I_star= fdir_star +fname1+'_I'+fname2+'_I.fits'
@@ -52,8 +53,8 @@ y_max=pix2mas*(nSubDim//2-1)
 #%%
 mean_sub_v_arr=np.empty((nFrames,nSubDim//2-1))
 sub_v_arr=np.empty((nFrames,nSubDim,nSubDim))
-im_name_lst =['Mira I','Mira PI','Mira DOLP','Mira AOLP',
-              'HD204971 I','HD204971 PI','HD204971 DOLP','HD204971 AOLP']
+im_name_lst =['Psi_Phe I','Psi_Phe PI','Psi_Phe DOLP','Psi_Phe AOLP',
+              'HD19887 I','HD19887 PI','HD19887 DOLP','HD19887 AOLP']
 Vmin=np.empty((nFrames))
 Vmax=np.empty((nFrames))
 #%%
@@ -106,7 +107,7 @@ for i in range (nFrames):
         plt.text(-1.1*pix2mas*size[0]//6., 2*pix2mas*size[1]//6., im_name_lst[i], color='w',
              fontsize='large', ha='center')
     else:
-        plt.text(-1.5*pix2mas*size[0]//6., 2*pix2mas*size[1]//6., im_name_lst[i], color='w',
+        plt.text(-1.3*pix2mas*size[0]//6., 2*pix2mas*size[1]//6., im_name_lst[i], color='w',
              fontsize='large', ha='center')
     plt.colorbar(label='ADU in log$_{10}$ scale')
     plt.clim(Vmin[i],Vmax[i])
@@ -162,7 +163,7 @@ for i in range (nFrames):
         plt.text(-1.1*pix2mas*size[0]//6., 2*pix2mas*size[1]//6., im_name_lst[i], color='w',
              fontsize='large', ha='center')
     else:
-        plt.text(-1.5*pix2mas*size[0]//6., 2*pix2mas*size[1]//6., im_name_lst[i], color='w',
+        plt.text(-1.3*pix2mas*size[0]//6., 2*pix2mas*size[1]//6., im_name_lst[i], color='w',
              fontsize='large', ha='center')
     plt.colorbar(label='ADU in log$_{10}$ scale')
     plt.clim(Vmin[i],Vmax[i])
