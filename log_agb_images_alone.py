@@ -103,7 +103,9 @@ def log_image(star_name):
         file_lst = [file_I_star,file_PI_star,file_DOLP_star,file_AOLP_star,
                   file_I_psf,file_PI_psf,file_DOLP_psf,file_AOLP_psf]
         nFrames = len(file_lst)
-    
+        """"""
+        ## Parameters
+        """"""
     
         nDim = 1024
         nSubDim = 200 # plage de pixels que l'on veut afficher
