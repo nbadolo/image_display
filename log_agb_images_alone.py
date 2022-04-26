@@ -40,18 +40,6 @@ import webbrowser
 #%% 
 def log_image(star_name):   
     
-    # lst_star = os.listdir('/home/nbadolo/Bureau/Aymard/Donnees_sph/repertoire/')
-    # lst_star.sort()
-    # lst_len = len(lst_star)
-    
-    # for i in range(lst_len): 
-    #     webbrowser.open(i)
-    #     print(i)
-    #     alo = i[0]
-    #     fltr = webbrowser.open(alo)
-    #     lst_fltr = os.listdir('')
-    #     file_exist = os.path.exists()
-    #     print(file_exist)
 #%%        
     fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+ '/'
     fdir_star = fdir + 'star/alone/' 
