@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Apr 21 12:58:11 2022
+Created on Wed Apr 27 18:01:22 2022
 
 @author: nbadolo
 """
+
+
 
 """
 Code simplifié pour l'affichage simultané de tous les alone  et de sa psf: flux 

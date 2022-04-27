@@ -15,4 +15,5 @@ lst_len = len(lst_star)
 
 for i in range(lst_len): #range(len(lst_star)):
    # print('Reduct_Numb', i)
-    log_agb_images_alone2.log_image(lst_star[i])
+    log_agb_images_alone2.log_image(lst_star[i],'alone')
+    log_agb_images_alone2.log_image(lst_star[i],'both')

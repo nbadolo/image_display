@@ -24,23 +24,12 @@ from matplotlib.pyplot import Figure, subplot
 #%%
 """
 ### Creation of data list
-"""
-# nDatalist= 34
-# data_lst = np.empty(nDatalist)
-# data_lst = ['17_Lep', 'bet_Gru', 'IRC _10420', 'L02_Pup', 'Mira', 'psi_Phe', 
-#             'ups_Cet', 'V_AC_Cet', 'V_BW_Oct', 'V_CW_Cnc', 'V_DZ_Aqr', 'V_pi_01_Gru',
-#             'V_R_Aqr','V_R_Hor', 'V_R_Peg', 'V_R_Scl', 'V_RT_Vir', 'V_S_Lep', 'V_S_Pav',
-#             'V_SW_Col', 'V_T_Cet', 'V_T_Mic', 'V_V854_Cen', 'V_V1943_Sgr', 'V_V_Hya',
-#             'V_W_Peg', 'V_Y_Oph', 'V_Y_Pav', 'V_Y_Scl', 'V_Z_Eri', 'V_Z_Peg', 'w_Pup']
-
-#nData = len(data_lst)
-
-
-#for i in range(nData):    
+""" 
 #%% 
 def log_image(star_name):   
     fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/' + star_name +'/'
     #fdir_star = fdir +'star/alone/'
+    
     
     fdir_star_ = fdir+'star/both/'
     fdir_psf = fdir+'psf'
@@ -54,22 +43,6 @@ def log_image(star_name):
     file_PI_psf = fdir_psf+fname1 + '_PI'+ fname2 +'_PI.fits'
     file_DOLP_psf = fdir_psf+ fname1 + '_DOLP'+ fname2 +'_DOLP.fits'
     file_AOLP_psf = fdir_psf+fname1 + '_AOLP' + fname2 + '_AOLP.fits'
-    
-    
-    # fdir='/home/nbadolo/Bureau/Aymard/Donnees_sph/' + star_name + '/'
-    # fdir_star=fdir+'star/'/home/nbadolo/Bureau/Aymard/Donnees_sph/
-    # fdir_psf=fdir+'psf/'
-    # fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
-    # fname2='-zpl_science_p23_REDUCED'
-    # file_I_star= fdir_star +fname1+'_I'+fname2+'_I.fits'
-    # file_PI_star= fdir_star+fname1+'_PI'+fname2+'_PI.fits'
-    # file_DOLP_star= fdir_star+fname1+'_DOLP'+fname2+'_DOLP.fits'
-    # file_AOLP_star= fdir_star+ fname1+'_AOLP'+fname2+'_AOLP.fits'
-
-    # file_I_psf= fdir_psf+ fname1+'_I'+fname2+'_I.fits'
-    # file_PI_psf= fdir_psf+fname1+'_PI'+fname2+'_PI.fits'
-    # file_DOLP_psf= fdir_psf+ fname1+'_DOLP'+fname2+'_DOLP.fits'
-    # file_AOLP_psf= fdir_psf+fname1+'_AOLP'+fname2+'_AOLP.fits'
   
     file_lst = [file_I_star,file_PI_star,file_DOLP_star,file_AOLP_star,
               file_I_psf,file_PI_psf,file_DOLP_psf,file_AOLP_psf]
@@ -185,7 +158,6 @@ def log_image(star_name):
             Vmin[i]=np.min(np.log10(sub_v_arr[i]))
             Vmax[i]=np.max(np.log10(sub_v_arr[i]))  
           
-
     plt.figure('R_PRIM')
     plt.clf()
     for i in range (nFrames):   
