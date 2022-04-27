@@ -123,12 +123,6 @@ def log_image(star_name, obsmod):
         
         Vmin3 = np.empty((nFrames3))
         Vmax3 = np.empty((nFrames3))
-        
-        # Vmin = np.empty((nFrames))
-        # Vmax = np.empty((nFrames))
-        
-        # U = np.empty((nFrames))
-        # V = np.empty((nFrames))
     
         position = (nDim//2,nDim//2)
         size = (nSubDim, nSubDim)
@@ -193,25 +187,6 @@ def log_image(star_name, obsmod):
          
               U3 = sub_v_arr3[2]*np.cos(np.pi*sub_v_arr3[3]/180)
               V3 = sub_v_arr3[2]*np.sin(np.pi*sub_v_arr3[3]/180)
-              
-                    
-              
-              
-              
-              
-              # if i <= 7:
-              #     U[i] = sub_v_arr[i]*np.cos(np.pi*sub_v_arr[i+1]/180)
-              #     V[i] = sub_v_arr[i]*np.sin(np.pi*sub_v_arr[i+1]/180)
-                  
-              # U_ = sub_v_arr[6]*np.cos(np.pi*sub_v_arr[7]/180)
-              # V_ = sub_v_arr[7]*np.sin(np.pi*sub_v_arr[7]/180)
-              
-              # sub_v_arr2 = []
-              
-              # sub_v_arr2.append(sub_v_arr[0])
-              # sub_v_arr2.append(sub_v_arr[1])
-              # sub_v_arr2.append(sub_v_arr[4])
-              # sub_v_arr2.append(sub_v_arr[5])
               
               shap = np.shape(sub_v_arr2)
               print(shap)
