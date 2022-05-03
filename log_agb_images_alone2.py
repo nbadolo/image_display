@@ -42,7 +42,7 @@ def log_image(star_name, obsmod):
         n_lst_fltr_data_star = len(lst_fltr_data_star)
         if n_lst_fltr_data_star != 0:
             lst_fltr2_star.append(lst_fltr_star[p])
-    print(lst_fltr2_star)
+    #print(lst_fltr2_star)
     
     
     lst_fltr_psf = os.listdir(fdir_psf)
@@ -55,14 +55,15 @@ def log_image(star_name, obsmod):
         n_lst_fltr_data_psf = len(lst_fltr_data_psf)
         if n_lst_fltr_data_psf != 0:
             lst_fltr2_psf.append(lst_fltr_psf[n])
-    print(lst_fltr2_psf)
+    #print(lst_fltr2_psf)
     
     lst_fltr3 = list(set(lst_fltr2_star).intersection(lst_fltr2_psf))
     print(lst_fltr3)
     n_lst_fltr3 = len(lst_fltr3)
-    for j in range(n_lst_fltr3):
-        fdir_star_fltr = fdir_star + lst_fltr3[j] +'/'
-        fdir_psf_fltr = fdir_psf + lst_fltr3[j] + '/'
+    print(n_lst_fltr3)
+    for l in range(n_lst_fltr3):
+        fdir_star_fltr = fdir_star + lst_fltr3[l] +'/'
+        fdir_psf_fltr = fdir_psf + lst_fltr3[l] + '/'
         
         fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
         fname2='-zpl_science_p23_REDUCED'
@@ -189,13 +190,13 @@ def log_image(star_name, obsmod):
               V3 = sub_v_arr3[2]*np.sin(np.pi*sub_v_arr3[3]/180)
               
               shap = np.shape(sub_v_arr2)
-              print(shap)
+              #print(shap)
         mean_sub_v_arr =  mean_sub_v_arr2 + mean_sub_v_arr3   
         sub_v_arr = sub_v_arr2 + sub_v_arr3     
         Vmin = Vmin2 + Vmin3
         Vmax = Vmax2 + Vmax3
         
-        plt.figure(f'{star_name}' +'(' + f'{ lst_fltr3[j]}' + ')', figsize=(40,20.5))
+        plt.figure(f'{star_name}' +'(' + f'{ lst_fltr3[l]}' + ')', figsize=(40,20.5))
         plt.clf()    
         for i in range (nFrames2):
               plt.subplot(3,3,i+1)
@@ -223,7 +224,7 @@ def log_image(star_name, obsmod):
                                         vmax=Vmax2[1], extent = [x_min , x_max, y_min , y_max])   
                           plt.colorbar(label='ADU in log$_{10}$ scale')       
                           q = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U2[::X_step,::X_step], V2[::X_step,::X_step])
-                          plt.quiverkey(q, X = -0.05, Y = 1.03, U = 0.03, label='pol. degree vector norm scale 0.03 ', labelpos='E')
+                          plt.quiverkey(q, X = 0.1, Y = 1.03, U = 0.006, label='deg vect. n. scale 0.03', labelpos='E')
                           # plt.text(-17*size[0]//25., 3*size[1]//2, im_name_lst[3], color='cyan',
                           #            fontsize='x-small', ha='center')
                           
@@ -237,15 +238,18 @@ def log_image(star_name, obsmod):
                                          vmax=Vmax2[1], extent = [x_min , x_max, y_min , y_max])   
                           plt.colorbar(label='ADU in log$_{10}$ scale')       
                           q = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U2[::X_step,::X_step], V2[::X_step,::X_step])
-                          plt.quiverkey(q, X = -0.05, Y = 1.03, U = 0.03, label='pol. degree vector norm scale 0.03 ', labelpos='E')
+                          plt.quiverkey(q, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.03', labelpos='E')
                           # plt.text(-17*size[0]//25., 3*size[1]//2, im_name_lst[3], color='cyan',
                           #         fontsize='x-small', ha='center') 
                           
                           
                           plt.text(size[0]//10, 2*pix2mas*size[1]//6.,
-                                    f'{star_name}' + '_' + f'{im_name_lst[i]}'+ 'Pol. vect', color='w',
+                                    '_psf_' + f'{im_name_lst[1]}'+ '_&_Pol. vect', color='w',
                                 fontsize='large', ha='center')
-                         
+        
+              if i == 0:
+                  plt.ylabel('Relative Dec.(mas)', size=10)   
+                          
         for j in range (len(nDimfigj)):   
             plt.subplot(3,3,(nDimfigj[j] + 1))
             if j == 2:
@@ -255,7 +259,7 @@ def log_image(star_name, obsmod):
                                         vmax=Vmax3[1], extent = [x_min , x_max, y_min , y_max])   
                     plt.colorbar(label='ADU in log$_{10}$ scale')       
                     q_ = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U3[::X_step,::X_step], V3[::X_step,::X_step])
-                    plt.quiverkey(q_, X = -0.05, Y = 1.03, U = 0.03, label='pol. degree vector norm scale 0.03 ', labelpos='E')
+                    plt.quiverkey(q_, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.03  ', labelpos='E')
                           # plt.text(-17*size[0]//25., 3*size[1]//2, im_name_lst[3], color='cyan',
                           #            fontsize='x-small', ha='center')      
                     plt.text(size[0]//10, 2*pix2mas*size[1]//6., 
@@ -268,13 +272,13 @@ def log_image(star_name, obsmod):
                                          vmax=Vmax3[1], extent = [x_min , x_max, y_min , y_max])   
                     plt.colorbar(label='ADU in log$_{10}$ scale')       
                     q_ = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U3[::X_step,::X_step], V3[::X_step,::X_step])
-                    plt.quiverkey(q_, X = -0.05, Y = 1.03, U = 0.03, label='pol. degree vector norm scale 0.03 ', labelpos='E')
+                    plt.quiverkey(q_, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.03', labelpos='E')
                           # plt.text(-17*size[0]//25., 3*size[1]//2, im_name_lst[3], color='cyan',
                           #         fontsize='x-small', ha='center') 
                           
                           
                     plt.text(size[0]//10, 2*pix2mas*size[1]//6., 
-                        f'{star_name}' + '_psf_' + f'{im_name_lst[1]}'+ 'Pol. vect', color='w',
+                         '_psf_' + f'{im_name_lst[1]}'+ '_&_Pol. vect', color='w',
                                   fontsize='large', ha='center')
             else:
                 if np.any(np.min(sub_v_arr3[j])<= 0):           
@@ -294,9 +298,12 @@ def log_image(star_name, obsmod):
                                 fontsize='large', ha='center')
                     plt.colorbar(label='ADU in log$_{10}$ scale')
                     
-                 
-                    
-        
+            if j == 0:
+                plt.ylabel('Relative Dec.(mas)', size=10)
+                plt.xlabel('Relative R.A.(mas)', size=10)
+            else:
+                plt.xlabel('Relative R.A.(mas)', size=10)         
+                           
         for k in range(len(nDimfigk)):      
               plt.subplot(3,3,nDimfigk[k] + 1)
               plt.plot(r_mas, np.log10(mean_sub_v_arr2[k]), color='darkorange',
@@ -308,15 +315,15 @@ def log_image(star_name, obsmod):
               if k == 0:
                   plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
         
-        # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
-        #                 '/plots/'+star_name+'_' +lst_fltr3[j] + '.pdf', 
-        #                 dpi=100, bbox_inches ='tight')
+        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+                        '/plots/'+star_name+'_' + lst_fltr3[l] + '.pdf', 
+                        dpi=100, bbox_inches ='tight')
         
         
-        # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
-        #                 '/plots/'+star_name+'_' +lst_fltr3[j] + '.png', 
-        #                 dpi=100, bbox_inches ='tight')
-        # plt.tight_layout()
+        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+                        '/plots/'+star_name+'_' +lst_fltr3[l] + '.png', 
+                        dpi=100, bbox_inches ='tight')
+        plt.tight_layout()
     
     msg='reduction okay for '+ star_name
     return(msg)
