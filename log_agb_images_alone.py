@@ -45,6 +45,7 @@ def log_image(star_name):
     fdir_star = fdir + 'star/alone/' 
     fdir_psf = fdir +'psf/alone/'
     lst_fltr_star = os.listdir(fdir_star)
+    print(lst_fltr_star)
     n_lst_fltr_star = len(lst_fltr_star)
     lst_fltr2_star = []
     for p in range(n_lst_fltr_star):
@@ -189,14 +190,14 @@ def log_image(star_name):
               if k == 0:
                   plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
         
-        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
-                        '/plots/'+star_name+'_' +lst_fltr3[j] + '.pdf', 
-                        dpi=100, bbox_inches ='tight')
+        # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+        #                 '/plots/'+star_name+'_' +lst_fltr3[j] + '.pdf', 
+        #                 dpi=100, bbox_inches ='tight')
         
         
-        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
-                        '/plots/'+star_name+'_' +lst_fltr3[j] + '.png', 
-                        dpi=100, bbox_inches ='tight')
+        # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+        #                 '/plots/'+star_name+'_' +lst_fltr3[j] + '.png', 
+        #                 dpi=100, bbox_inches ='tight')
         plt.tight_layout()
     
     msg='reduction okay for '+ star_name

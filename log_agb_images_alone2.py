@@ -41,7 +41,7 @@ def log_image(star_name, obsmod):
         n_lst_fltr_data_star = len(lst_fltr_data_star)
         if n_lst_fltr_data_star != 0:
             lst_fltr2_star.append(lst_fltr_star[p])
-    #print(lst_fltr2_star)
+    print(lst_fltr2_star)
     
     
     lst_fltr_psf = os.listdir(fdir_psf)
