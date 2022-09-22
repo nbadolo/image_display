@@ -42,11 +42,11 @@ nFrames=len(file_lst)
 #%%
 #parameters
 nDim=1024
-nSubDim = 100 # plage de pixels que l'on veut afficher
+nSubDim = 200 # plage de pixels que l'on veut afficher
 size = (nSubDim, nSubDim)
 nDimfigj=[9,10,11]
 nDimfigk=[0,1,2]
-lst_threshold = [0.02, 0.03, 0.05, 0.07, 0.1]
+lst_threshold = [0.01] #, 0.015, 0.02, 0.03, 0.05, 0.07, 0.1]
 n_threshold = len(lst_threshold)
 vmin0=3.5
 vmax0=15
@@ -60,8 +60,9 @@ size = (nSubDim, nSubDim)
 
 x, y = np.meshgrid(np.arange(nSubDim),np.arange(nSubDim)) #cree un tableau 
 sub_v_arr = np.zeros((nFrames,nSubDim,nSubDim))
-ellips_arr = np.zeros((nFrames,nSubDim,nSubDim))
-ellips_im_arr = np.zeros((nFrames,nSubDim,nSubDim))
+Ellips_arr = np.zeros((nFrames,nSubDim,nSubDim))
+Ellips_im_arr = np.zeros((nFrames,nSubDim,nSubDim))
+par_arr = np.zeros((n_threshold, 5)) # les paramètres de l'étoile
 Vmin = np.zeros((nFrames)) # pour l'image totale
 Vmax = np.zeros((nFrames))
 Vmin_r = np.zeros((nFrames))
@@ -70,7 +71,7 @@ Vmin_w = np.zeros((nFrames))
 Vmax_w = np.zeros((nFrames)) # pour l'image binaire
 
 fmt = {}
-strs = ['2%', '3%', '5%', '7%','10%']
+strs = ['1%', '1.5%', '2%', '3%', '5%', '7%','10%']
 for l, s in zip(lst_threshold, strs):
     fmt[l] = s
 
@@ -86,38 +87,38 @@ for i in range(nFrames):
       zoom_hdu = hdu.copy()
       sub_v = cutout.data
       
-      sub_v_arr[i] = np.log10(sub_v+np.abs(np.min(sub_v))+0.01)
+      sub_v_arr[i] = sub_v
       
       for j in range(n_threshold):
           Ellips_im = np.zeros_like(sub_v_arr[i]) #creation d'un tableau de meme forme que sub_v
           Ellips_im[sub_v > lst_threshold[j]*np.max(sub_v)] = sub_v[sub_v > lst_threshold[j]*np.max(sub_v)]# on retient les points d'intensité égale à 5% de Imax 
-          ellips_im_arr[i] = np.log10(Ellips_im)
+          Ellips_im_arr[i] = Ellips_im
           
           Ellips = np.zeros_like(sub_v)          #creation d'un tableau de meme forme que sub_v
           Ellips[sub_v > lst_threshold[j]*np.max(sub_v)] = 1   # on retient les points d'intensité 
-          ellips_arr[i] = np.log10(Ellips)                 # égale à 5% de Imax et à tous ces points 
+          Ellips_arr[i] = Ellips                # égale à 5% de Imax et à tous ces points 
                                                  # on donne 1 comme valeur d'intensité
     
             
-          Vmin = np.min(np.log10(sub_v_arr[i]))
-          Vmax = np.max(np.log10(sub_v_arr[i]))
+          Vmin[i] = np.min(np.log10(sub_v+np.abs(np.min(sub_v))+10))
+          Vmax [i] = np.max(np.log10(sub_v+np.abs(np.min(sub_v))+10))
           
-          Vmin_r[i] = np.min(np.log10(ellips_im_arr[i]))
-          Vmax_r[i] = np.max(np.log10(ellips_im_arr[i]))  
+          Vmin_r[i] = np.min(np.log10(Ellips_im+np.abs(np.min(Ellips_im))+10))
+          Vmax_r[i] = np.max(np.log10(Ellips_im+np.abs(np.min(Ellips_im))+10))  
           
-          Vmin_w[i] = np.min(np.log10(ellips_arr[i]))
-          Vmax_w[i] = np.max(np.log10(ellips_arr[i]))  
+          Vmin_w[i] = np.min(np.log10(Ellips+np.abs(np.min(Ellips))+10))
+          Vmax_w[i] = np.max(np.log10(Ellips+np.abs(np.min(Ellips))+10))  
      
       
-          im_white = ellips_arr[i]
-          im_real = ellips_im_arr[i]
+          im_white = Ellips_arr[i]
+          im_real = Ellips_im_arr[i]
 
           
-            # plot of the white image at 5% *Imax
-          plt.figure('white ellips')
-          plt.clf()
-          plt.imshow(im_white, cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
-          plt.title('Intensity at ' + f'{strs[j]}')
+           # plot of the white image at 5% *Imax
+          # plt.figure('white ellips')
+          # plt.clf()
+          # plt.imshow(im_white, cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
+          # plt.title('Intensity at ' + f'{strs[j]}')
           
          
           
@@ -131,10 +132,11 @@ for i in range(nFrames):
           #image = img_as_bool(io.imread('bubble.jpg')[..., 0])
           regions = measure.regionprops(measure.label(im_white))
           bubble = regions[0]
-
-          y_i, x_i = np.log10(bubble.centroid)
-          a_i = np.log10(bubble.major_axis_length / 2.)
-          b_i = np.log10(0.75*bubble.major_axis_length / 2.)
+          
+          # initial guess (must be to change related on the % considered)
+          y_i, x_i = bubble.centroid
+          a_i = 0.5*bubble.major_axis_length / 2.
+          b_i = 0.5*0.75*bubble.major_axis_length / 2.
           theta_i  = pi/4
           t = np.linspace(0, 2*pi, nSubDim)
 
@@ -148,9 +150,10 @@ for i in range(nFrames):
             
           x_f, y_f, a_f, b_f, theta_f = opt.fmin(cost, (x_i, y_i, a_i, b_i, theta_i))
 
-#def ellips(t, x_f, y_f, a_f, bb_f, theta_f):
+          #def ellips(t, x_f, y_f, a_f, bb_f, theta_f):
 
-    
+          par_arr[j] = [x_f, y_f, a_f, b_f, theta_f]
+          
           Ell = np.array([a_f*np.cos(t) , b_f*np.sin(t)])  
                  #u,v removed to keep the same center location
           M_rot = np.array([[cos(theta_f) , -sin(theta_f)],[sin(theta_f) , cos(theta_f)]])  
@@ -161,16 +164,16 @@ for i in range(nFrames):
               Ell_rot[:,k] = np.dot(M_rot,Ell[:,k])
               Ell_rot[0,k] = Ell_rot[0,k] + x_f
               Ell_rot[1,k] = Ell_rot[1,k] + y_f
-#return Ell_rot.ravel() # .ravel permet de passer de deux dimension à une seule
+          #return Ell_rot.ravel() # .ravel permet de passer de deux dimension à une seule
 
-          plt.figure('white ellips contour at ' + f'{strs[j]}')
+          plt.figure('white ellipse contour at ' + f'{strs[j]}')
           plt.clf()
-          plt.imshow(ellips_arr[i], cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
+          plt.imshow(np.log10(Ellips_arr[i]+np.abs(np.min(Ellips_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
             #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
           plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
             #plt.grid(color='lightgray',linestyle='--')
           plt.show()
-          
+          plt.title('white ellipse contour at ' + f'{strs[j]}')
           plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] + '.pdf', 
                       dpi=100, bbox_inches ='tight')
         
@@ -181,11 +184,12 @@ for i in range(nFrames):
 
           plt.figure('real image contour at ' + f'{strs[j]}')
           plt.clf()
-          plt.imshow(ellips_im_arr[i], cmap ='inferno', vmin = Vmin_r[i], vmax = Vmax_r[i], origin='lower')
+          plt.imshow(np.log10(Ellips_im_arr[i]+np.abs(np.min(Ellips_im_arr[i]))+10), cmap ='inferno', vmin = Vmin_r[i], vmax = Vmax_r[i], origin='lower')
         #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
           plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
         #plt.grid(color='lightgray',linestyle='--')
           plt.show()
+          plt.title('real image contour at ' + f'{strs[j]}')
           plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'real_image_contour_at_' + strs[j] + '.pdf', 
                         dpi=100, bbox_inches ='tight')
 
@@ -197,12 +201,12 @@ for i in range(nFrames):
 
           plt.figure('full image and contour at ' + f'{strs[j]}')
           plt.clf()
-          plt.imshow(sub_v_arr[i], cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_r[i], origin='lower')
+          plt.imshow(np.log10(sub_v_arr[i]+np.abs(np.min(sub_v_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_r[i], origin='lower')
           #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
           plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
           #plt.grid(color='lightgray',linestyle='--')
           plt.show()
-        
+          plt.title('full image and contour at ' + f'{strs[j]}')
           plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'full_image_and_contour_at_' + strs[j] + '.pdf', 
                       dpi=100, bbox_inches ='tight')
         

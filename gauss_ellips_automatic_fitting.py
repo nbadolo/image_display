@@ -46,7 +46,7 @@ nSubDim = 100 # plage de pixels que l'on veut afficher
 size = (nSubDim, nSubDim)
 nDimfigj=[9,10,11]
 nDimfigk=[0,1,2]
-lst_threshold = [0.02, 0.03, 0.05, 0.07, 0.1]
+lst_threshold = [0.01, 0.015, 0.02, 0.03, 0.05, 0.07, 0.1]
 n_threshold = len(lst_threshold)
 vmin0=3.5
 vmax0=15
@@ -62,6 +62,7 @@ x, y = np.meshgrid(np.arange(nSubDim),np.arange(nSubDim)) #cree un tableau
 sub_v_arr = np.zeros((nFrames,nSubDim,nSubDim))
 ellips_arr = np.zeros((nFrames,nSubDim,nSubDim))
 ellips_im_arr = np.zeros((nFrames,nSubDim,nSubDim))
+par_arr = np.zeros((n_threshold, 5)) # les paramètres de l'étoile
 Vmin = np.zeros((nFrames)) # pour l'image totale
 Vmax = np.zeros((nFrames))
 Vmin_r = np.zeros((nFrames))
@@ -70,7 +71,7 @@ Vmin_w = np.zeros((nFrames))
 Vmax_w = np.zeros((nFrames)) # pour l'image binaire
 
 fmt = {}
-strs = ['2%', '3%', '5%', '7%','10%']
+strs = ['1%', '1.5%', '2%', '3%', '5%', '7%','10%']
 for l, s in zip(lst_threshold, strs):
     fmt[l] = s
 
@@ -99,8 +100,8 @@ for i in range(nFrames):
                                                  # on donne 1 comme valeur d'intensité
     
             
-          Vmin = np.min(sub_v_arr[i])
-          Vmax = np.max(sub_v_arr[i])
+          Vmin[i] = np.min(sub_v_arr[i])
+          Vmax[i] = np.max(sub_v_arr[i])
           
           Vmin_r[i] = np.min(ellips_im_arr[i])
           Vmax_r[i] = np.max(ellips_im_arr[i])  
@@ -131,13 +132,15 @@ for i in range(nFrames):
           #image = img_as_bool(io.imread('bubble.jpg')[..., 0])
           regions = measure.regionprops(measure.label(im_white))
           bubble = regions[0]
-
+          
+          # initial guess (must be to change related on the % considered)
           y_i, x_i = bubble.centroid
-          a_i = bubble.major_axis_length / 2.
-          b_i = 0.75*bubble.major_axis_length / 2.
+          a_i = 0.3*bubble.major_axis_length / 2.
+          b_i = 0.3*0.75*bubble.major_axis_length / 2.
           theta_i  = pi/4
           t = np.linspace(0, 2*pi, nSubDim)
-
+          
+          # ellipse function
           def cost(params):
               x0, y0, a, b, theta = params
               #coords = draw.disk((y0, x0), r, shape=image.shape)
@@ -147,7 +150,9 @@ for i in range(nFrames):
               return -np.sum(template == im_white)
             
           x_f, y_f, a_f, b_f, theta_f = opt.fmin(cost, (x_i, y_i, a_i, b_i, theta_i))
-
+          
+          par = [x_f, y_f, a_f, b_f, theta_f]
+          par_arr[j] = par
 #def ellips(t, x_f, y_f, a_f, bb_f, theta_f):
 
     
