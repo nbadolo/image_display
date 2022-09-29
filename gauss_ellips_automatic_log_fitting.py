@@ -71,7 +71,7 @@ Vmin_w = np.zeros((nFrames))
 Vmax_w = np.zeros((nFrames)) # pour l'image binaire
 
 fmt = {}
-strs = ['1%', '1.5%', '2%', '3%', '5%', '7%','10%']
+strs = ['1%'] #, '1.5%', '2%', '3%', '5%', '7%','10%']
 for l, s in zip(lst_threshold, strs):
     fmt[l] = s
 
