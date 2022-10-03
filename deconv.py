@@ -37,7 +37,7 @@ def log_image(star_name, obsmod):
     for p in range(n_lst_fltr_star):
         
         fdir_fltr_data_star = fdir_star + lst_fltr_star[p]
-        lst_fltr_data_star = os.listdir(fdir_fltr_data_star) 
+        lst_fltr_data_star = os.listdir(fdir_fltr_data_star)
         n_lst_fltr_data_star = len(lst_fltr_data_star)
         if n_lst_fltr_data_star != 0:
             lst_fltr2_star.append(lst_fltr_star[p])

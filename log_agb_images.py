@@ -129,10 +129,8 @@ def log_image(star_name, obsmod):
         R = np.sqrt((x-nSubDim/2)**2+(y-nSubDim/2)**2)
         r = np.linspace(1,nSubDim//2-1,nSubDim//2-1) # creation d'un tableau de distance radiale
         
-        r_mas=pix2mas*r #  où r est en pixels et r_mas en millièmes d'arcseconde
-    
-      
-    
+        r_mas = pix2mas*r #  où r est en pixels et r_mas en millièmes d'arcseconde
+       
         for i in range (nFrames2):
               hdu = fits.open(file_lst2[i])[0]   
               data2 = hdu.data   

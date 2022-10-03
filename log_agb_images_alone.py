@@ -89,9 +89,10 @@ def log_image(star_name):
         file_DOLP_psf= fdir_psf_fltr + fname1+'_DOLP'+fname2+'_DOLP.fits'
         file_AOLP_psf= fdir_psf_fltr +fname1+'_AOLP'+fname2+'_AOLP.fits'
       
-        file_lst = [file_I_star,file_PI_star,file_DOLP_star,file_AOLP_star,
-                  file_I_psf,file_PI_psf,file_DOLP_psf,file_AOLP_psf]
+        file_lst = [file_I_star, file_PI_star, file_DOLP_star, file_AOLP_star,
+                  file_I_psf, file_PI_psf, file_DOLP_psf, file_AOLP_psf]
         nFrames = len(file_lst)
+        
         """"""
         ## Parameters
         """"""
@@ -109,12 +110,12 @@ def log_image(star_name):
         y_min = -pix2mas*nSubDim//2
         y_max = pix2mas*(nSubDim//2-1)
         
-        mean_sub_v_arr=np.empty((nFrames,nSubDim//2-1))
+        mean_sub_v_arr = np.empty((nFrames,nSubDim//2-1))
         sub_v_arr=np.empty((nFrames,nSubDim,nSubDim))
         im_name_lst = ['I','PI','DOLP','AOLP',
                         'I','PI','DOLP','AOLP']
-        Vmin=np.empty((nFrames))
-        Vmax=np.empty((nFrames))
+        Vmin = np.empty((nFrames))
+        Vmax = np.empty((nFrames))
     
         position = (nDim//2,nDim//2)
         size = (nSubDim, nSubDim)
@@ -142,7 +143,7 @@ def log_image(star_name):
               f = lambda r : sub_v[(R >= r-0.5) & (R < r+0.5)].mean()   
               mean_sub_v = np.vectorize(f)(r) 
             
-              mean_sub_v_arr[i]=mean_sub_v 
+              mean_sub_v_arr[i] = mean_sub_v 
               sub_v_arr[i]=sub_v
               if i==3 or i==7:
                   Vmin[i]=np.min(sub_v_arr[i])
