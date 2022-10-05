@@ -23,9 +23,8 @@ import matplotlib.colors as colors
 from matplotlib.pyplot import Figure, subplot
 import webbrowser
 #%% 
-def log_image(star_name, obsmod):   
+def log_image(star_name, obsmod): 
     
-
 #%%        
     fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+ '/'
     fdir_star = fdir + 'star/'+obsmod+ '/' 
@@ -42,7 +41,7 @@ def log_image(star_name, obsmod):
         n_lst_fltr_data_star = len(lst_fltr_data_star)
         if n_lst_fltr_data_star != 0:
             lst_fltr2_star.append(lst_fltr_star[p])
-    #print(lst_fltr2_star)
+    print(lst_fltr2_star)
     
     
     lst_fltr_psf = os.listdir(fdir_psf)
@@ -196,7 +195,7 @@ def log_image(star_name, obsmod):
         Vmin = Vmin2 + Vmin3
         Vmax = Vmax2 + Vmax3
         
-        plt.figure(f'{star_name}' +'(' + f'{ lst_fltr3[l]}' + ')', figsize=(40,20.5))
+        plt.figure(f'{star_name}' +'(' + f'{ lst_fltr3[l]}' + ')', figsize=(6,7))
         plt.clf()    
         for i in range (nFrames2):
               plt.subplot(3,3,i+1)

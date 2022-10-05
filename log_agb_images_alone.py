@@ -45,6 +45,7 @@ def log_image(star_name):
     fdir_star = fdir + 'star/alone/' 
     fdir_psf = fdir +'psf/alone/'
     lst_fltr_star = os.listdir(fdir_star)
+    print(lst_fltr_star)
     n_lst_fltr_star = len(lst_fltr_star)
     lst_fltr2_star = []
     for p in range(n_lst_fltr_star):
@@ -88,9 +89,10 @@ def log_image(star_name):
         file_DOLP_psf= fdir_psf_fltr + fname1+'_DOLP'+fname2+'_DOLP.fits'
         file_AOLP_psf= fdir_psf_fltr +fname1+'_AOLP'+fname2+'_AOLP.fits'
       
-        file_lst = [file_I_star,file_PI_star,file_DOLP_star,file_AOLP_star,
-                  file_I_psf,file_PI_psf,file_DOLP_psf,file_AOLP_psf]
+        file_lst = [file_I_star, file_PI_star, file_DOLP_star, file_AOLP_star,
+                  file_I_psf, file_PI_psf, file_DOLP_psf, file_AOLP_psf]
         nFrames = len(file_lst)
+        
         """"""
         ## Parameters
         """"""
@@ -108,12 +110,12 @@ def log_image(star_name):
         y_min = -pix2mas*nSubDim//2
         y_max = pix2mas*(nSubDim//2-1)
         
-        mean_sub_v_arr=np.empty((nFrames,nSubDim//2-1))
+        mean_sub_v_arr = np.empty((nFrames,nSubDim//2-1))
         sub_v_arr=np.empty((nFrames,nSubDim,nSubDim))
         im_name_lst = ['I','PI','DOLP','AOLP',
                         'I','PI','DOLP','AOLP']
-        Vmin=np.empty((nFrames))
-        Vmax=np.empty((nFrames))
+        Vmin = np.empty((nFrames))
+        Vmax = np.empty((nFrames))
     
         position = (nDim//2,nDim//2)
         size = (nSubDim, nSubDim)
@@ -141,7 +143,7 @@ def log_image(star_name):
               f = lambda r : sub_v[(R >= r-0.5) & (R < r+0.5)].mean()   
               mean_sub_v = np.vectorize(f)(r) 
             
-              mean_sub_v_arr[i]=mean_sub_v 
+              mean_sub_v_arr[i] = mean_sub_v 
               sub_v_arr[i]=sub_v
               if i==3 or i==7:
                   Vmin[i]=np.min(sub_v_arr[i])
@@ -189,14 +191,14 @@ def log_image(star_name):
               if k == 0:
                   plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
         
-        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
-                        '/plots/'+star_name+'_' +lst_fltr3[j] + '.pdf', 
-                        dpi=100, bbox_inches ='tight')
+        # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+        #                 '/plots/'+star_name+'_' +lst_fltr3[j] + '.pdf', 
+        #                 dpi=100, bbox_inches ='tight')
         
         
-        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
-                        '/plots/'+star_name+'_' +lst_fltr3[j] + '.png', 
-                        dpi=100, bbox_inches ='tight')
+        # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+        #                 '/plots/'+star_name+'_' +lst_fltr3[j] + '.png', 
+        #                 dpi=100, bbox_inches ='tight')
         plt.tight_layout()
     
     msg='reduction okay for '+ star_name
