@@ -9,19 +9,20 @@ Created on Thu Sep 22 09:45:40 2022
 #packages
 import numpy as np
 from matplotlib import pyplot as plt
-from math import pi, cos, sin
+from math import pi, cos, sin, atan
 from astropy.nddata import Cutout2D
 from astropy.io import fits
+from scipy.stats import linregress
 import scipy.optimize as opt
+from sklearn.linear_model import LinearRegression
 from skimage import io, color, measure, draw, img_as_bool
 import pylab as plt
 #import matplotlib.pyplot as plt
-
-
 #%%
 #file
 fdir='/home/nbadolo//Bureau/Aymard/Donnees_sph/'
-fdir_star=fdir+'log/SW_Col/star/both/V_N_R/'
+#fdir_star=fdir+'log/SW_Col/star/both/V_N_R/'
+fdir_star=fdir+'log/Y_Scl/star/both/V_N_R/'
 #fdir_psf=fdir+'psf/HD204971_mira/'
 fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
 fname2='-zpl_science_p23_REDUCED'
@@ -29,6 +30,7 @@ file_I_star= fdir_star + fname1 +'_I'+fname2+'_I.fits'
 file_PI_star= fdir_star+fname1+'_PI'+fname2+'_PI.fits'
 file_DOLP_star= fdir_star+fname1+'_DOLP'+fname2+'_DOLP.fits'
 file_AOLP_star= fdir_star+ fname1+'_AOLP'+fname2+'_AOLP.fits'
+
 
 # file_I_psf= fdir_psf+ fname1+'_I'+fname2+'_I.fits'
 # file_PI_psf= fdir_psf+fname1+'_PI'+fname2+'_PI.fits'
@@ -46,7 +48,7 @@ nSubDim = 200 # plage de pixels que l'on veut afficher
 size = (nSubDim, nSubDim)
 nDimfigj=[9,10,11]
 nDimfigk=[0,1,2]
-lst_threshold = [0.01] #, 0.015, 0.02, 0.03, 0.05, 0.07, 0.1]
+lst_threshold = [0.01, 0.03] #, 0.015, 0.02, 0.03, 0.05, 0.07, 0.1]
 n_threshold = len(lst_threshold)
 vmin0=3.5
 vmax0=15
@@ -70,10 +72,9 @@ Vmax_r = np.zeros((nFrames))# pour 'imagge reel tronquee à au pourcentage
 Vmin_w = np.zeros((nFrames))
 Vmax_w = np.zeros((nFrames)) # pour l'image binaire
 
-fmt = {}
-strs = ['1%'] #, '1.5%', '2%', '3%', '5%', '7%','10%']
-for l, s in zip(lst_threshold, strs):
-    fmt[l] = s
+strs = [str(x*100) + '%' for x in lst_threshold]
+
+
 
 #fig_label = strs
 #%%
@@ -119,24 +120,38 @@ for i in range(nFrames):
           # plt.clf()
           # plt.imshow(im_white, cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
           # plt.title('Intensity at ' + f'{strs[j]}')
-          
-         
-          
-            # plot of the real image at 5% *Imax
-          # plt.figure('real image')
+#%%                            
+          #plot of the real image at 5% *Imax
+          # plt.figure(3)
           # plt.clf()
           # plt.imshow(im_real, cmap ='inferno', vmin=Vmin_r[i], vmax=Vmax_r[i], origin='lower')
           # plt.title('Intensity at 5%')
+#%%       
+# utilisation d'une regression linéaire pour déterminer l'orientation
 
-
-          #image = img_as_bool(io.imread('bubble.jpg')[..., 0])
+          index = np.argwhere(im_white) # recupère les indices  des points dont l'intensité est non nulle 
+          X = index[:,1]
+          Y = index[:,0]
+          
+          
+          linear_reg = np.polyfit(X, Y, 1, full = False, cov = True)
+          alpha_rad = atan(linear_reg[0][0])    # recupération de la pente de la regression
+          alpha_deg = alpha_rad*180/pi
+          aa = linear_reg[0][0]
+          bb = linear_reg[0][1]
+          xx = np.arange(nSubDim)
+          yy = aa*xx + bb
+          
+          
+          #slope, intercept, r, p, se = linregress(Y, X)
+#%%          #image = img_as_bool(io.imread('bubble.jpg')[..., 0])
           regions = measure.regionprops(measure.label(im_white))
           bubble = regions[0]
           
           # initial guess (must be to change related on the % considered)
           y_i, x_i = bubble.centroid
-          a_i = 0.5*bubble.major_axis_length / 2.
-          b_i = 0.5*0.75*bubble.major_axis_length / 2.
+          a_i = bubble.major_axis_length / 2.
+          b_i = bubble.minor_axis_length / 2.
           theta_i  = pi/4
           t = np.linspace(0, 2*pi, nSubDim)
 
@@ -149,14 +164,16 @@ for i in range(nFrames):
               return -np.sum(template == im_white)
             
           x_f, y_f, a_f, b_f, theta_f = opt.fmin(cost, (x_i, y_i, a_i, b_i, theta_i))
-
+          
           #def ellips(t, x_f, y_f, a_f, bb_f, theta_f):
-
+          theta_f = np.pi/2 -theta_f
           par_arr[j] = [x_f, y_f, a_f, b_f, theta_f]
           
+          theta_f_deg = theta_f*180/pi
           Ell = np.array([a_f*np.cos(t) , b_f*np.sin(t)])  
                  #u,v removed to keep the same center location
-          M_rot = np.array([[cos(theta_f) , -sin(theta_f)],[sin(theta_f) , cos(theta_f)]])  
+          M_rot = np.array([[cos(theta_f) , -sin(theta_f)],[sin(theta_f) , cos(theta_f)]]) 
+          
                  #2-D rotation matrix
             
           Ell_rot = np.zeros((2, Ell.shape[1]))
@@ -165,7 +182,16 @@ for i in range(nFrames):
               Ell_rot[0,k] = Ell_rot[0,k] + x_f
               Ell_rot[1,k] = Ell_rot[1,k] + y_f
           #return Ell_rot.ravel() # .ravel permet de passer de deux dimension à une seule
-
+          
+          
+          M_rot2 = np.array([[cos(alpha_rad) , -sin(alpha_rad)],[sin(alpha_rad) , cos(alpha_rad)]])
+          Ell_rot2 = np.zeros((2, Ell.shape[1]))
+          for k in range(Ell.shape[1]):
+              Ell_rot2[:,k] = np.dot(M_rot2,Ell[:,k])
+              Ell_rot2[0,k] = Ell_rot2[0,k] + x_f
+              Ell_rot2[1,k] = Ell_rot2[1,k] + y_f
+              
+              
           plt.figure('white ellipse contour at ' + f'{strs[j]}')
           plt.clf()
           plt.imshow(np.log10(Ellips_arr[i]+np.abs(np.min(Ellips_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
@@ -177,17 +203,35 @@ for i in range(nFrames):
           plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] + '.pdf', 
                       dpi=100, bbox_inches ='tight')
         
-        
-          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] +  '.png', 
-              dpi=100, bbox_inches ='tight')
-          plt.tight_layout()
-
+          
+          
+          # plt.figure('white ellipse contour for linear reg at ' + f'{strs[j]}')
+          # plt.clf()
+          # plt.imshow(np.log10(Ellips_arr[i]+np.abs(np.min(Ellips_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
+          #   #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
+          # plt.plot( Ell_rot2[0,:] , Ell_rot2[1,:],'darkorange' ) #rotated fit
+          #   #plt.grid(color='lightgray',linestyle='--')
+          # plt.plot( xx , yy,'r' )
+          # plt.show()
+          # plt.title('white ellipse contour at ' + f'{strs[j]}')
+          # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] + '.pdf', 
+          #             dpi=100, bbox_inches ='tight')
+          
+          
+          
+          # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] +  '.png', 
+          #     dpi=100, bbox_inches ='tight')
+          # plt.tight_layout()
+          
+          
+          
           plt.figure('real image contour at ' + f'{strs[j]}')
           plt.clf()
-          plt.imshow(np.log10(Ellips_im_arr[i]+np.abs(np.min(Ellips_im_arr[i]))+10), cmap ='inferno', vmin = Vmin_r[i], vmax = Vmax_r[i], origin='lower')
+          plt.imshow(np.log10(Ellips_im_arr[i] + np.abs(np.min(Ellips_im_arr[i]))+10), cmap ='inferno', vmin = Vmin_r[i], vmax = Vmax_r[i], origin='lower')
         #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
           plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
         #plt.grid(color='lightgray',linestyle='--')
+          
           plt.show()
           plt.title('real image contour at ' + f'{strs[j]}')
           plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'real_image_contour_at_' + strs[j] + '.pdf', 
@@ -197,7 +241,6 @@ for i in range(nFrames):
           plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'real_image_contour_at_' + strs[j] +  '.png', 
                 dpi=100, bbox_inches ='tight')
           plt.tight_layout()
-
 
           plt.figure('full image and contour at ' + f'{strs[j]}')
           plt.clf()

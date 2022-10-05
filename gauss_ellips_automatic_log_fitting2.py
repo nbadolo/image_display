@@ -125,72 +125,28 @@ for i in range(nFrames):
           im_real = Ellips_im_arr[i]
 
           
-           # plot of the white image at 5% *Imax
-          # plt.figure('white ellips')
-          # plt.clf()
-          # plt.imshow(im_white, cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
-          # plt.title('Intensity at ' + f'{strs[j]}')
-          
-         
-          
-            # plot of the real image at 5% *Imax
-          # plt.figure('real image')
-          # plt.clf()
-          # plt.imshow(im_real, cmap ='inferno', vmin=Vmin_r[i], vmax=Vmax_r[i], origin='lower')
-          # plt.title('Intensity at 5%')
-
-
-          #image = img_as_bool(io.imread('bubble.jpg')[..., 0])
-          # regions = measure.regionprops(measure.label(im_white))
-          # bubble = regions[0]
-          
-          # # initial guess (must be to change related on the % considered)
-          # y_i, x_i = bubble.centroid
-          # a_i = 0.5*bubble.major_axis_length / 2.
-          # b_i = 0.5*0.75*bubble.major_axis_length / 2.
-          
       t = np.linspace(0, 2*pi, nSubDim)    
       # Load picture, convert to grayscale and detect edges
          #image_rgb = data.coffee()[0:220, 160:420]
       #image_gray = color.rgb2gray(im_white)
-<<<<<<< HEAD
-      edges = canny(im_white, sigma= 0, low_threshold=0 , high_threshold = 0.2 )
-=======
-      edges = canny(im_white, sigma=2.0,
-                    low_threshold=0.55, high_threshold=0.8)
->>>>>>> develop
+      edges = canny(im_real, sigma = 0, low_threshold = 0.7, high_threshold = 0.8)
 
       # Perform a Hough Transform
       # The accuracy corresponds to the bin size of a major axis.
       # The value is chosen in order to get a single high accumulator.
       # The threshold eliminates low accumulators
-      result = hough_ellipse(edges) #, accuracy=20, threshold=250,
-                             #min_size=100, max_size=120)
-<<<<<<< HEAD
-                            
+      result = hough_ellipse(edges) #, accuracy=20, threshold=250,min_size=100, max_size=120)
       result.sort(order='accumulator')
 
       # Estimated parameters for the ellipse
       best = list(result[-1])
-      print(best)
-      
-      
-      yc, xc, a, b =  [int(np.round(x)) for x in best[1:5]]
+      yc, xc, a, b = [int(np.round(x)) for x in best[1:5]]
       orientation = best[5]
-      # yc, xc, a, b = result[1], result[2], result[3], result[4]
-      # orientation = result[5]
-      stop  
-=======
-      result.sort(order='accumulator')
-
-      # Estimated parameters for the ellipse
-      best = list(result[:-1])
-      yc, xc, a, b = [round(y) for y in x for x in best[1:5]] #[int(np.round(x)) for x in best[1:5]]
-      orientation = result[5]
+      
+      print(best)
       # yc, xc, a, b = result[1], result[2], result[3], result[4]
       # orientation = result[5]
         
->>>>>>> develop
 
         # Draw the ellipse on the original image
       # cy, cx = ellipse_perimeter(yc, xc, a, b, orientation)
