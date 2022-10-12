@@ -24,7 +24,7 @@ import numpy as np
 # Definitions bloc:
     file_path_l: chemin gros tableau
     file_path_s: chemin du petit tableau
-    file_path_r: chein des étoiles resolues
+    file_path_r: chemin des étoiles resolues
 """
 
 file_path_l = '/home/nbadolo/Bureau/Aymard/These/for_papers/large_log_par.ods'

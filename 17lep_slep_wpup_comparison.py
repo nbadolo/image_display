@@ -24,12 +24,12 @@ import matplotlib.colors as colors
 from matplotlib.pyplot import Figure, subplot
 import webbrowser
 #%% 
-# =============================================================================
+#=============================================================================
 ## definition of variable numbers 
 # 1:17_Lep
 # 2: S_Lep
 # 3: w_pup
-# =============================================================================
+#=============================================================================
 
         
 fdir1= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/17_Lep/star/alone/I_PRIM/'
