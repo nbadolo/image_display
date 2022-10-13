@@ -18,6 +18,10 @@ Created on Tue Oct 11 11:10:49 2022
 
 @author: nbadolo
 """
+# =============================================================================
+# Pour les fits  gaussiens de tous les objets resolus
+# =============================================================================
+
 
 #packages
 import numpy as np
@@ -234,14 +238,15 @@ def log_image(star_name, obsmod):
                   
                          #2-D rotation matrix
                     
+                  Ell_rot_ = np.zeros((2, nSubDim))
                   Ell_rot = np.zeros((2, nSubDim))
                   for k in range(Ell.shape[1]):
-                      Ell_rot[:,k] = np.dot(M_rot,Ell[:,k])
+                      Ell_rot_[:,k] = np.dot(M_rot,Ell[:,k]) # fait le produit scal de la matrice de rotation par chaq couple parametriq 
+                      Ell_rot[:,k] = Ell_rot_[:,k]
                       Ell_rot[0,k] = Ell_rot[0,k] + x_f
                       Ell_rot[1,k] = Ell_rot[1,k] + y_f
                   #return Ell_rot.ravel() # .ravel permet de passer de deux dimension à une seule
-                  Ell_rot_arr[i][j][0] = Ell_rot[0,k] 
-                  Ell_rot_arr[i][j][1] =  Ell_rot[1,k]
+                      Ell_rot_arr[i][j][:,k] = Ell_rot[:,k] 
                   
                   # M_rot2 = np.array([[cos(alpha_rad) , -sin(alpha_rad)],[sin(alpha_rad) , cos(alpha_rad)]])
                   # Ell_rot2 = np.zeros((2, Ell.shape[1]))
@@ -252,14 +257,14 @@ def log_image(star_name, obsmod):
                   
                   
                       
-                  plt.figure('white ellipse contour at ' + f'{strs[j]}' +' for ' + f'{lst_Frame_name[i]}')
+                  plt.figure('white ellipse contour at ' + f'{strs[j]}' +' for ' + f'{lst_Frame_name[i]}'+' of '+ f'{star_name}')
                   plt.clf()
                   plt.imshow(np.log10(Ellips_arr[i][j]+np.abs(np.min(Ellips_arr[i][j]))+10), cmap ='inferno', vmin=Vmin_w[i][j], vmax=Vmax_w[i][j], origin='lower')
                     #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
                   plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
                     #plt.grid(color='lightgray',linestyle='--')
                   plt.show()
-                  plt.title('white ellipse contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}')
+                  plt.title('white ellipse contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}' +' of '+ f'{star_name}', fontsize=10)
                   plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'white_ellips_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
                               dpi=100, bbox_inches ='tight')
                   plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'white_ellips_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
@@ -295,12 +300,12 @@ def log_image(star_name, obsmod):
                 #plt.grid(color='lightgray',linestyle='--')
                   
                   plt.show()
-                  plt.title('real image contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}')
-                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'real_image_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
+                  plt.title('real image contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}' +' of '+ f'{star_name}', fontsize=10)
+                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+ star_name +'/plots/fits/log_scale/fully_automatic/' +'real_image_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
                                 dpi=100, bbox_inches ='tight')
         
         
-                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'real_image_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
+                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+ star_name +'/plots/fits/log_scale/fully_automatic/' +'real_image_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
                         dpi=100, bbox_inches ='tight')
                   plt.tight_layout()
         
@@ -311,12 +316,12 @@ def log_image(star_name, obsmod):
                   plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
                   #plt.grid(color='lightgray',linestyle='--')
                   plt.show()
-                  plt.title('full image and contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}')
-                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'full_image_and_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
+                  plt.title('full image and contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]} '+' of '+ f'{star_name}', fontsize=10)
+                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+ star_name +'/plots/fits/log_scale/fully_automatic/' +'full_image_and_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
                               dpi=100, bbox_inches ='tight')
                 
                 
-                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'full_image_and_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
+                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+ star_name +'/plots/fits/log_scale/fully_automatic/' +'full_image_and_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
                       dpi=100, bbox_inches ='tight')
                   plt.tight_layout()
                   
@@ -331,13 +336,13 @@ def log_image(star_name, obsmod):
                   
                   #plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
                   #plt.grid(color='lightgray',linestyle='--')
-                  plt.show()
-                  plt.title('full image and contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}')
-                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'full_image_and_all_the_contours' +'_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
+              plt.show()
+              plt.title('full image and all the  contours at ' + ' for ' + f'{lst_Frame_name[i]}'+' of '+ f'{star_name}', fontsize=10)
+              plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+ star_name +'/plots/fits/log_scale/fully_automatic/' +'full_image_and_all_the_contours' +'_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
                               dpi=100, bbox_inches ='tight')
                 
                 
-                  plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'full_image_and_all_the_contours'  + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
+              plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+ star_name +'/plots/fits/log_scale/fully_automatic/' +'full_image_and_all_the_contours'  + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
                       dpi=100, bbox_inches ='tight')
-                  plt.tight_layout()
+              plt.tight_layout()
 
