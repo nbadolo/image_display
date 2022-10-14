@@ -110,7 +110,7 @@ def log_image(star_name, obsmod):
         n_threshold = len(lst_threshold)
         vmin0 = 3.5
         vmax0 = 15
-        pix2mas = 6.8  #en mas/pix
+        pix2mas = 3.4  #en mas/pix
         x_min = -pix2mas*nSubDim//2
         x_max = pix2mas*(nSubDim//2-1)
         y_min = -pix2mas*nSubDim//2

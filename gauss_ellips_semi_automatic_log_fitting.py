@@ -14,12 +14,13 @@ from astropy.nddata import Cutout2D
 from astropy.io import fits
 from scipy.stats import linregress
 import scipy.optimize as opt
+import scipy.ndimage
 from sklearn.linear_model import LinearRegression
 from skimage import io, color, measure, draw, img_as_bool
 import pylab as plt
 #import matplotlib.pyplot as plt
 #%%
-star_name = 'Y_Scl'
+star_name = 'SW_Col'
 #file
 fdir='/home/nbadolo//Bureau/Aymard/Donnees_sph/'
 fdir_star=fdir+'log/'+star_name+'/star/both/V_N_R/'
@@ -39,7 +40,7 @@ file_AOLP_star= fdir_star+ fname1+'_AOLP'+fname2+'_AOLP.fits'
 # file_AOLP_psf= fdir_psf+fname1+'_AOLP'+fname2+'_AOLP.fits'
 #%%
 #creating lists
-file_lst=[file_I_star, file_PI_star]
+file_lst=[file_PI_star]
           #,file_I_psf,file_PI_psf,file_DOLP_psf,file_AOLP_psf]
           
 nFrames = len(file_lst)
@@ -173,6 +174,7 @@ for i in range(nFrames):
           x_f, y_f, a_f, b_f, theta_f = opt.fmin(cost, (x_i, y_i, a_i, b_i, theta_i))
           
           #def ellips(t, x_f, y_f, a_f, bb_f, theta_f):
+          theta_f1 = theta_f    
           theta_f = np.pi/2 -theta_f
           par_arr[i][j] = [x_f, y_f, a_f, b_f, theta_f]
           
@@ -236,7 +238,78 @@ for i in range(nFrames):
           #     dpi=100, bbox_inches ='tight')
           # plt.tight_layout()
           
+        # =============================================================================
+        #  For the radial profile at a given orientation, theta_f       
+        # =============================================================================
           
+          
+          #z  = sub_v_arr[i]
+          z = np.log10(sub_v_arr[i]+np.abs(np.min(sub_v_arr[i]))+10)
+          #z = sub_v_arr[i] + np.abs(np.min(sub_v_arr[i]) + 0.01
+          #-- Extract the line...
+          # Make a line with "num" points...
+
+          # x1, y1 = x_f, y_f
+          # x2, y2 = 0, y_f - theta_f*x_f
+          
+          x1, y1 = x_f, y_f      # common point of th two lines
+          x2, y2 = x_f - y_f/(np.tan(theta_f)), 0 # the second point of theta line 
+          x3, y3 = x_f + y_f/(np.tan(theta_f)), 0  # the second point of (theta + pi/2) line 
+         
+          
+          num = 1000
+          # x, y = np.linspace(x0, x1, num), np.linspace(y0, y1, num)
+          x, y = np.linspace(x1, x2, num), np.linspace(y1, y2, num)
+          x_, y_ = np.linspace(x1, x3, num), np.linspace(y1, y3, num)
+
+          # Extract the values along the line, using cubic interpolation
+          zi = scipy.ndimage.map_coordinates(z, np.vstack((x,y))) #  les données pour le profile radial
+          zi_ = scipy.ndimage.map_coordinates(z, np.vstack((x_,y_)))
+          #-- Plot...
+          # fig, axes = plt.subplots(nrows=2)
+          # axes[0].imshow(z)
+          # axes[0].plot([x1, x2], [y1, y2], 'ro-')
+          # axes[0].axis('image')
+
+          # axes[1].plot(zi)
+          
+          plt.figure('radial profile at a given orientation, theta_f and theta_f + pi/2 ('+star_name+ ')')
+          plt.clf()
+          plt.subplot(2,2,1)    
+          plt.imshow(z, cmap ='inferno', vmin=Vmin_w[i][j], vmax=Vmax_r[i][j], origin='lower')# extent = [x_min , x_max, y_min , y_max] )
+          plt.plot(Ell_rot[0,:], Ell_rot[1,:])
+          plt.plot([x1, x2], [y1, y2], 'ro-')
+          plt.xlabel('Relative R.A.(pix)', size=10)
+          plt.ylabel('Relative Dec.(pix)', size=10)
+          plt.title('radial profile at a given orientation, theta_f ('+star_name+ ')', fontsize=10)
+          plt.subplot(2,2,2)    
+          plt.imshow(z, cmap ='inferno', vmin=Vmin_w[i][j], vmax=Vmax_r[i][j], origin='lower')# extent = [x_min , x_max, y_min , y_max] )
+          plt.plot(Ell_rot[0,:], Ell_rot[1,:])
+          plt.plot([x1, x3], [y1, y3], 'ro-')
+          plt.xlabel('Relative R.A.(pix)', size=10)
+          plt.ylabel('Relative Dec.(pix)', size=10)
+          plt.title('radial profile at a given orientation, theta_f + pi/2 ('+star_name+ ')', fontsize=10)
+          plt.subplot(2,2,3)
+          plt.plot(zi)
+          plt.xlabel('r (mas)', size=10)          
+          plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
+          plt.subplot(2,2,4)
+          plt.plot(zi_) 
+          plt.xlabel('r (pix)', size=10) 
+          plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
+          plt.show()
+          
+          
+          stop
+          plt.title('real image contour at ' + f'{strs[j]}' + ' for ' + f'{lst_Frame_name[i]}' +' of ' + star_name, fontsize=10)
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+'/plots/fits/log_scale/semi_automatic/' +'real_image_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.pdf', 
+                        dpi=100, bbox_inches ='tight')
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+'/plots/fits/log_scale/semi_automatic/' +'real_image_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
+                dpi=100, bbox_inches ='tight')
+          plt.tight_layout()
+
+
+         
           
           plt.figure('real image contour at ' + f'{strs[j]}')
           plt.clf()
