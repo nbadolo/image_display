@@ -18,9 +18,9 @@ Created on Tue Oct 11 11:10:49 2022
 
 @author: nbadolo
 """
-# =============================================================================
-# Pour les fits  gaussiens de tous les objets resolus
-# =============================================================================
+# ====================================================#
+# Pour les fits  gaussiens de tous les objets resolus #
+# ====================================================#
 
 
 #packages
@@ -175,25 +175,6 @@ def log_image(star_name, obsmod):
               
                   im_white = Ellips_arr[i][j]
                   im_real = Ellips_im_arr[i][j]
-        
-                  
-                   # plot of the white image at 5% *Imax
-                  # plt.figure('white ellips')
-                  # plt.clf()
-                  # plt.imshow(im_white, cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
-                  # plt.title('Intensity at ' + f'{strs[j]}')
-                                    
-                  #plot of the real image at 5% *Imax
-                  # plt.figure(3)
-                  # plt.clf()
-                  # plt.imshow(im_real, cmap ='inferno', vmin=Vmin_r[i], vmax=Vmax_r[i], origin='lower')
-                  # plt.title('Intensity at 5%')
-              
-    #utilisation d'une regression linéaire pour déterminer l'orientation
-        
-                  # index = np.argwhere(im_white) # recupère les indices  des points dont l'intensité est non nulle 
-                  # X = index[:,1]
-                  # Y = index[:,0]
                   
                   
                   # linear_reg = np.polyfit(X, Y, 1, full = False, cov = True)
