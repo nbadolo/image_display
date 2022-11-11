@@ -124,8 +124,21 @@ for i in range(nFrames):
       
           im_white = Ellips_arr[i][j]
           im_real = Ellips_im_arr[i][j]
-
-
+          
+          
+        # =========================================================#
+        # Deteminatiion des coordonnées du pixel le plus brillant  #        
+        # =========================================================#
+        
+          index = np.argwhere(sub_v_arr[0])
+          index_peak = np.argmax(index)
+          index_peak = np.unravel_index(index_peak, 2)
+          # X = index[:,1]
+          # Y = index[:,0]
+          print(index_peak)
+          
+         
+          stop
           
         # =======================#
         #   Calcul de l'ellipse  #
@@ -162,7 +175,7 @@ for i in range(nFrames):
           theta_f_deg = theta_f*180/pi
           Ell = np.array([a_f*np.cos(t) , b_f*np.sin(t)])  # equation parametrique de l'ellips^
                  #u,v removed to keep the same center location
-          M_rot = np.array([[cos(theta_f) , -sin(theta_f)],[sin(theta_f) , cos(theta_f)]]) 
+          M_rot = np.array([[cos(theta_f) , -sin(theta_f)],[sin(theta_f) , cos(theta_f)]])# matrice de rotation dans le sens anti-horaire
           
                  #2-D rotation matrix
             
@@ -282,49 +295,51 @@ for i in range(nFrames):
       plt.tight_layout()
       
       # ========================================================#
-      #  For the radial profile at a given orientation, theta_f #     
+      # For the radial profile at a given orientation, theta_f  #     
       # ========================================================# 
        
      
-      imp = np.log10(sub_v_arr[1]+ np.abs(np.min(sub_v_arr[1])) + 10)
-      for i in range(nFrames):
-          im = np.log10(sub_v_arr[i]+ np.abs(np.min(sub_v_arr[i])) + 10)
-          x0, y0, x1, y1, x2, y2,z, zi1, zi2, x1_, y1_, x2_, y2_, zi1_, zi2_ = erp(par_arr[i][0][0], par_arr[i][0][1], par_arr[i][0][2], par_arr[i][0][3], par_arr[i][0][4], im, 100)
+      # imp = np.log10(sub_v_arr[1]+ np.abs(np.min(sub_v_arr[1])) + 10)
+      # for i in range(nFrames):
+      #     im = np.log10(sub_v_arr[i]+ np.abs(np.min(sub_v_arr[i])) + 10)
+      #     x0, y0, x1, y1, x2, y2,z, zi1, zi2, x1_, y1_, x2_, y2_, zi1_, zi2_ = erp(par_arr[i][0][0], par_arr[i][0][1], par_arr[i][0][2], par_arr[i][0][3], par_arr[i][0][4], im, 100)
           
           
-          plt.figure('radial profile at a given orientation, theta and theta + pi/2 ('+star_name+ ')' ' for ' f'{lst_Frame_name[i]}')
-          plt.clf()
-          plt.subplot(2,2,1)    
-          plt.imshow(z, cmap ='inferno', vmin=Vmin_w[i][0], vmax = Vmax_r[i][0], origin='lower')# extent = [x_min , x_max, y_min , y_max] )
-          plt.plot(Ell_rot_arr[i][0][0,:] , Ell_rot_arr[i][0][1,:])
-          plt.plot([x0, x1], [y0, y1], 'ro-')
-          plt.plot([x0, x1_], [y0, y1_], 'ro-')
-          plt.xlabel('Relative R.A.(pix)', size=10)
-          plt.ylabel('Relative Dec.(pix)', size=10)
-          plt.title('radial profile at a given orientation, theta ('+star_name+ ')', fontsize=10)
-          plt.subplot(2,2,2)    
-          plt.imshow(z, cmap ='inferno', vmin = Vmin_w[i][0], vmax =  Vmax_r[i][0], extent = [x_min , x_max, y_min , y_max],  origin='lower')# extent = [x_min , x_max, y_min , y_max] )
-          plt.plot(Ell_rot_arr[i][0][0,:] , Ell_rot_arr[i][0][1,:])
-          plt.plot([x0, x2], [y0, y2], 'ro-')
-          plt.plot([x0, x2_], [y0, y2_], 'ro-')
-          plt.xlabel('Relative R.A.(pix)', size=10)
-          plt.ylabel('Relative Dec.(pix)', size=10)
-          plt.title('radial profile at a given orientation, theta + pi/2 ('+star_name+ ')', fontsize=10)
-          plt.subplot(2,2,3)
-          plt.plot(zi1)
-          plt.plot(zi1_)
-          plt.xlabel('r (mas)', size=10)          
-          plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
-          plt.subplot(2,2,4)
-          plt.plot(zi2) 
-          plt.plot(zi2_) 
-          plt.xlabel('r (pix)', size=10) 
-          plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
-          plt.show()
+      #     plt.figure('radial profile at a given orientation, theta and theta + pi/2 ('+star_name+ ')' ' for ' f'{lst_Frame_name[i]}')
+      #     plt.clf()
+      #     plt.subplot(2,2,1)    
+      #     plt.imshow(z, cmap ='inferno', vmin=Vmin_w[i][0], vmax = Vmax_r[i][0], origin='lower')# extent = [x_min , x_max, y_min , y_max] )
+      #     plt.plot(Ell_rot_arr[i][0][0,:] , Ell_rot_arr[i][0][1,:])
+      #     plt.plot([x0, x1], [y0, y1], 'ro-')
+      #     plt.plot([x0, x1_], [y0, y1_], 'ro-')
+      #     plt.xlabel('Relative R.A.(pix)', size=10)
+      #     plt.ylabel('Relative Dec.(pix)', size=10)
+      #     plt.title('radial profile at a given orientation, theta ('+star_name+ ')', fontsize=10)
+      #     plt.subplot(2,2,2)    
+      #     plt.imshow(z, cmap ='inferno', vmin = Vmin_w[i][0], vmax =  Vmax_r[i][0], extent = [x_min , x_max, y_min , y_max],  origin='lower')# extent = [x_min , x_max, y_min , y_max] )
+      #     plt.plot(Ell_rot_arr[i][0][0,:] , Ell_rot_arr[i][0][1,:])
+      #     plt.plot([x0, x2], [y0, y2], 'ro-')
+      #     plt.plot([x0, x2_], [y0, y2_], 'ro-')
+      #     plt.xlabel('Relative R.A.(pix)', size=10)
+      #     plt.ylabel('Relative Dec.(pix)', size=10)
+      #     plt.title('radial profile at a given orientation, theta + pi/2 ('+star_name+ ')', fontsize=10)
+      #     plt.subplot(2,2,3)
+      #     plt.plot(zi1)
+      #     plt.plot(zi1_)
+      #     plt.xlabel('r (mas)', size=10)          
+      #     plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
+      #     plt.subplot(2,2,4)
+      #     plt.plot(zi2) 
+      #     plt.plot(zi2_) 
+      #     plt.xlabel('r (pix)', size=10) 
+      #     plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
+      #     plt.show()
       
-          
-      im = np.log10(sub_v_arr[i]+ np.abs(np.min(sub_v_arr[i])) + 10)
-      imp = np.log10(sub_v_arr[1]+ np.abs(np.min(sub_v_arr[1])) + 10)
+      
+      
+      
+      im = np.log10(sub_v_arr[i] + np.abs(np.min(sub_v_arr[i])) + 10)
+      imp = np.log10(sub_v_arr[1] + np.abs(np.min(sub_v_arr[1])) + 10)
       x0, y0, x1, y1, x2, y2,z, zi1, zi2, x1_, y1_, x2_, y2_, zi1_, zi2_ = erp(par_arr[0][0][0], par_arr[0][0][1], par_arr[0][0][2], par_arr[0][0][3], par_arr[0][0][4], im, 100)
       x0p, y0p, x1p, y1p, x2p, y2p,zp, zi1p, zi2p, x1p_, y1p_, x2p_, y2p_, zi1p_, zi2p_ = erp(par_arr[1][0][0], par_arr[1][0][1], par_arr[1][0][2], par_arr[1][0][3], par_arr[1][0][4], imp, 100)
       plt.figure('profiles comparison')
@@ -348,7 +363,7 @@ for i in range(nFrames):
       plt.plot([x0p, x2p_], [y0p, y2p_], 'ro-')
       plt.xlabel('Relative R.A.(pix)', size=10)
       plt.ylabel('Relative Dec.(pix)', size=10)
-      plt.title('radial profile at a given orientation, theta + pi/2 ('+star_name+ ')'  f'{lst_Frame_name[1]}', fontsize=10)
+      plt.title('radial profile at a given orientation, theta + pi/2 (' + star_name + ')'  f'{lst_Frame_name[1]}', fontsize=10)
       plt.subplot(2,2,3)
       plt.plot(zi1)
       plt.plot(zi1p)
@@ -362,3 +377,8 @@ for i in range(nFrames):
       plt.xlabel('r (pix)', size=10) 
       plt.ylabel(r'Intensity in log$_{10}$ scale', size=10)
       plt.show()
+      plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+'/plots/radial/radial_profile_at_a_given_orientation.pdf', 
+                      dpi=100, bbox_inches ='tight')
+      plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+'/plots/radial/radial_profile_at_a_given_orientation.png', 
+              dpi=100, bbox_inches ='tight')
+      plt.tight_layout()

@@ -11,6 +11,7 @@ Created on Tue Mar  1 09:25:13 2022
 Code simplifié pour l'affichage simultané de tous les both  et de sa psf: flux 
 et profile radial d'intensité'
 """
+#-- packages
 
 import numpy as np
 import os 
@@ -21,22 +22,7 @@ from astropy.nddata import Cutout2D
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from matplotlib.pyplot import Figure, subplot
-#%%
-"""
-### Creation of data list
-"""
-# nDatalist= 34
-# data_lst = np.empty(nDatalist)
-# data_lst = ['17_Lep', 'bet_Gru', 'IRC _10420', 'L02_Pup', 'Mira', 'psi_Phe', 
-#             'ups_Cet', 'V_AC_Cet', 'V_BW_Oct', 'V_CW_Cnc', 'V_DZ_Aqr', 'V_pi_01_Gru',
-#             'V_R_Aqr','V_R_Hor', 'V_R_Peg', 'V_R_Scl', 'V_RT_Vir', 'V_S_Lep', 'V_S_Pav',
-#             'V_SW_Col', 'V_T_Cet', 'V_T_Mic', 'V_V854_Cen', 'V_V1943_Sgr', 'V_V_Hya',
-#             'V_W_Peg', 'V_Y_Oph', 'V_Y_Pav', 'V_Y_Scl', 'V_Z_Eri', 'V_Z_Peg', 'w_Pup']
-
-#nData = len(data_lst)
-
-
-#for i in range(nData):    
+    
 #%% 
 def log_image(star_name):   
     fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/' + star_name +'/'
@@ -49,11 +35,12 @@ def log_image(star_name):
     file_I_star = fdir_star_ + fname1+'_I'+ fname2 +'_I.fits'
     file_PI_star = fdir_star_+ fname1+'_PI'+ fname2 +'_PI.fits'
     file_DOLP_star = fdir_star_ + fname1 +'_DOLP' + fname2 +'_DOLP.fits'
-    file_AOLP_star = fdir_star_ + fname1 +'_AOLP'+ fname2 +'_AOLP.fits'    
+    file_AOLP_star = fdir_star_ + fname1 +'_AOLP'+ fname2 +'_AOLP.fits' 
+    file_Q_PHI_star =  fdir_star_ + fname1 +'_Q_PHI'+ fname2 +'_Q_PHI.fits'
     file_I_psf = fdir_psf+ fname1 + '_I'+ fname2 +'_I.fits'
     file_PI_psf = fdir_psf+fname1 + '_PI'+ fname2 +'_PI.fits'
     file_DOLP_psf = fdir_psf+ fname1 + '_DOLP'+ fname2 +'_DOLP.fits'
-    file_AOLP_psf = fdir_psf+fname1 + '_AOLP' + fname2 + '_AOLP.fits'
+    file_AOLP_psf = fdir_psf + fname1 + '_AOLP' + fname2 + '_AOLP.fits'
     
     
     # fdir='/home/nbadolo/Bureau/Aymard/Donnees_sph/' + star_name + '/'
@@ -71,7 +58,7 @@ def log_image(star_name):
     # file_DOLP_psf= fdir_psf+ fname1+'_DOLP'+fname2+'_DOLP.fits'
     # file_AOLP_psf= fdir_psf+fname1+'_AOLP'+fname2+'_AOLP.fits'
   
-    file_lst = [file_I_star,file_PI_star,file_DOLP_star,file_AOLP_star,
+    file_lst = [file_I_star,file_PI_star,file_DOLP_star,file_AOLP_star,file_Q_PHI_star,
               file_I_psf,file_PI_psf,file_DOLP_psf,file_AOLP_psf]
     nFrames = len(file_lst)
 

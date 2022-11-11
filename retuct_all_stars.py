@@ -16,7 +16,7 @@ lst_star.sort()
 lst_len = len(lst_star)
 print(lst_star)
 
-for i in range(lst_len): 
+#for i in range(lst_len): 
 #    if i == 5 :    # affiche uniquement irc_10420
 #        log_irc_images.log_image(lst_star[i], 'alone')
 #        log_irc_images.log_image(lst_star[i], 'both')   
@@ -34,7 +34,7 @@ for i in range(lst_len):
 #         deconv.log_image(lst_star[i], 'alone')
 #         deconv.log_image(lst_star[i], 'both')
     
-    #if i == 9 :#or i == 10 or i == 13 or i == 14  or i == 15 or i == 24 : # affiche les fits gaussiens des objets resolus
-    if i == 24 :   
-        gauss_ellips_full_automatic_log_fitting.log_image(lst_star[i], 'alone')
-        gauss_ellips_full_automatic_log_fitting.log_image(lst_star[i], 'both')
+    #if i == 9 or i == 10 or i == 13 or i == 14  or i == 15 or i == 24 : # affiche les fits gaussiens des objets resolus
+    #if i == 24 :   
+        #gauss_ellips_full_automatic_log_fitting.log_image(lst_star[i], 'alone')
+        #gauss_ellips_full_automatic_log_fitting.log_image(lst_star[i], 'both')
