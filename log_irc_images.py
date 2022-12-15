@@ -28,8 +28,8 @@ def log_image(star_name, obsmod):
 #%%       
     fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+ '/'
     fdir_star = fdir + 'star/'+obsmod+ '/' 
-    fdir_psf = fdir +'psf/'+obsmod+ '/'
-    lst_fltr_star1 = os.listdir(fdir_star)
+    #fdir_psf = fdir +'psf/'+obsmod+ '/'
+    lst_fltr_star1 = os.listdir(fdir_star) #  fait la liste des filtres contenus dans alone ou both
     print(lst_fltr_star1)
     n_lst_fltr_star1 = len(lst_fltr_star1)
     #print(obsmod)
@@ -37,20 +37,20 @@ def log_image(star_name, obsmod):
     nDimfigj = [3, 4, 5]
     nDimfigk = [6, 7, 8]
     for p in range(n_lst_fltr_star1):
-        fdir_fltr_data_star = fdir_star + lst_fltr_star1[p]
-        lst_fltr_data_star = os.listdir(fdir_fltr_data_star)
+        fdir_fltr_data_star = fdir_star + lst_fltr_star1[p] 
+        lst_fltr_data_star = os.listdir(fdir_fltr_data_star) # fait la liste du contenu de cahque filtre
         #print(lst_fltr_data_star)
-        n_lst_fltr_data_star = len(lst_fltr_data_star)
+        n_lst_fltr_data_star = len(lst_fltr_data_star)  # donne la taille de chaque filtre
         if n_lst_fltr_data_star != 0:
-            lst_fltr_star2.append(lst_fltr_star1[p])
-    n_lst_fltr_star2 = len(lst_fltr_star2)
+            lst_fltr_star2.append(lst_fltr_star1[p]) # retient les filtre qui contiennent des fichiers 
+    n_lst_fltr_star2 = len(lst_fltr_star2)           # et les concatene a la liste vide lst_fltr_star2
     print(lst_fltr_star2)
     
     
     for l in range(n_lst_fltr_star2):
        
         fdir_star_fltr = fdir_star + lst_fltr_star2[l] +'/'
-        fdir_psf_fltr = fdir_psf + lst_fltr_star2[l] + '/'
+        #fdir_psf_fltr = fdir_psf + lst_fltr_star2[l] + '/'
                 
         fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
         fname2='-zpl_science_p23_REDUCED'
@@ -175,7 +175,7 @@ def log_image(star_name, obsmod):
     
     for m in range(n_lst_fltr_star2):
          fdir_star_fltr = fdir_star + lst_fltr_star2[m] +'/'
-         fdir_psf_fltr = fdir_psf + lst_fltr_star2[m] + '/'
+         #fdir_psf_fltr = fdir_psf + lst_fltr_star2[m] + '/'
         
          fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
          fname2='-zpl_science_p23_REDUCED'

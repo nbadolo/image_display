@@ -15,7 +15,7 @@ import os
 from astropy.io import fits
 from scipy import optimize, signal
 from scipy.signal import convolve2d as conv2
-import aymardrl as arl
+from AymardPack import Margaux_RL_deconv
 from skimage import color, data, restoration
 from astropy.nddata import Cutout2D
 import matplotlib.pyplot as plt
@@ -119,8 +119,10 @@ def log_image(star_name, obsmod):
         deconv_arr = np.empty((nFrames_d,nSubDim,nSubDim))
         deconv_arr2 = np.empty((nFrames_d,nSubDim,nSubDim))
         
+        
         im_name_lst = ['I','PI','DOLP','AOLP',
                         'I','PI','DOLP','AOLP']
+        
         Vmin2 = np.empty((nFrames2))
         Vmax2 = np.empty((nFrames2))
         
@@ -141,10 +143,9 @@ def log_image(star_name, obsmod):
         R = np.sqrt((x-nSubDim/2)**2+(y-nSubDim/2)**2)
         r = np.linspace(1,nSubDim//2-1,nSubDim//2-1) # creation d'un tableau de distance radiale
         
-        r_mas=pix2mas*r #  où r est en pixels et r_mas en millièmes d'arcseconde
+        r_mas = pix2mas*r #  où r est en pixels et r_mas en millièmes d'arcseconde
     
-      
-    
+          
         for i in range (nFrames2):
               hdu = fits.open(file_lst2[i])[0]   
               data2 = hdu.data   
@@ -201,7 +202,7 @@ def log_image(star_name, obsmod):
         # Vmax = Vmax2 + Vmax3
         
         for i in range (nFrames_d):   
-            deconvolved_RL = arl.Margaux_RL_deconv(sub_v_arr2[i], sub_v_arr3[0], 5) # deconvolution de toutes les cartes par l'int de la psf
+            deconvolved_RL = Margaux_RL_deconv(sub_v_arr2[i], sub_v_arr3[0], 5) # deconvolution de toutes les cartes par l'int de la psf
             deconv_arr[i]  = deconvolved_RL
             
             
@@ -277,7 +278,7 @@ def log_image(star_name, obsmod):
             if j == 2:
                 print(nDimfigj[j])
                 if np.any(np.min(sub_v_arr2[1])<= 0):
-                    plt.imshow(sub_v_arr2[1], cmap ='inferno', origin='lower',vmin=Vmin2[1], 
+                    plt.imshow(sub_v_arr2[1], cmap ='inferno', origin='lower',vmin = Vmin2[1], 
                                         vmax=Vmax2[1], extent = [x_min , x_max, y_min , y_max])   
                     plt.colorbar(label='ADU in log$_{10}$ scale')       
                     q_ = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U2[::X_step,::X_step], V2[::X_step,::X_step])
@@ -606,7 +607,7 @@ def log_image(star_name, obsmod):
               V3_ = sub_v_arr3_[2]*np.sin(np.pi*sub_v_arr3_[3]/180)
         
         for i in range (nFrames_d_):
-            deconvolved_RL_ = arl.Margaux_RL_deconv(sub_v_arr2_[i], sub_v_arr3_[0], 5)
+            deconvolved_RL_ = Margaux_RL_deconv(sub_v_arr2_[i], sub_v_arr3_[0], 5)
             #deconvolved_RL_ = restoration.richardson_lucy(sub_v_arr2[i], sub_v_arr3[0], 10)
             deconv_arr_[i]  = deconvolved_RL_
             

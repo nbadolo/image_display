@@ -200,7 +200,9 @@ for i in range(nFrames):
             #plt.grid(color='lightgray',linestyle='--')
           plt.show()
           plt.title('white ellipse contour at ' + f'{strs[j]}')
-          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] + '.pdf', 
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/early_automatic/' +'white_ellips_contour_at_' + strs[j] + '.pdf', 
+                      dpi=100, bbox_inches ='tight')
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/early_automatic/' +'white_ellips_contour_at_' + strs[j] + '.png', 
                       dpi=100, bbox_inches ='tight')
         
           
@@ -234,11 +236,11 @@ for i in range(nFrames):
           
           plt.show()
           plt.title('real image contour at ' + f'{strs[j]}')
-          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/semi_automatic/' +'real_image_contour_at_' + strs[j] + '.pdf', 
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/early_automatic/' +'real_image_contour_at_' + strs[j] + '.pdf', 
                         dpi=100, bbox_inches ='tight')
 
 
-          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/semi_automatic/' +'real_image_contour_at_' + strs[j] +  '.png', 
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/early_automatic/' +'real_image_contour_at_' + strs[j] +  '.png', 
                 dpi=100, bbox_inches ='tight')
           plt.tight_layout()
 
@@ -250,10 +252,10 @@ for i in range(nFrames):
           #plt.grid(color='lightgray',linestyle='--')
           plt.show()
           plt.title('full image and contour at ' + f'{strs[j]}')
-          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/semi_automatic/' +'full_image_and_contour_at_' + strs[j] + '.pdf', 
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/early_automatic/' +'full_image_and_contour_at_' + strs[j] + '.pdf', 
                       dpi=100, bbox_inches ='tight')
         
         
-          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/semi_automatic/' +'full_image_and_contour_at_' + strs[j] +  '.png', 
+          plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/early_automatic/' +'full_image_and_contour_at_' + strs[j] +  '.png', 
               dpi=100, bbox_inches ='tight')
           plt.tight_layout()

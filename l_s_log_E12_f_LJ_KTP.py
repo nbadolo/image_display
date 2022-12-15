@@ -24,7 +24,7 @@ import numpy as np
 # Definitions bloc:
     file_path_l: chemin gros tableau
     file_path_s: chemin du petit tableau
-    file_path_r: chein des étoiles resolues
+    file_path_r: chemin des étoiles resolues
 """
 
 file_path_l = '/home/nbadolo/Bureau/Aymard/These/for_papers/large_log_par.ods'
@@ -76,11 +76,11 @@ plt.ylabel('E12', size=10)
 
 #plt.title( label = "Excess infrared in relation to key parameters" ,fontsize = 12 ,color = "k" )
 
-plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'l_s_log_E12.pdf', 
+plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'l_s_r_log_E12.pdf', 
                 dpi=100, bbox_inches ='tight')
 
 
-plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'l_s_log_E12.png', 
+plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'l_s_r_log_E12.png', 
                 dpi=100, bbox_inches ='tight')
 plt.tight_layout()
 plt.show()

@@ -309,11 +309,11 @@ def log_image(star_name, obsmod):
         fdir_star_fltr = fdir_star + lst_fltr3[m] +'/'
         fdir_psf_fltr = fdir_psf + lst_fltr3[m] + '/'
         
-        fname1='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
-        fname2='-zpl_science_p23_REDUCED'
-        file_I_star= fdir_star_fltr + fname1+'_I'+fname2+'_I.fits'
-        file_PI_star= fdir_star_fltr +fname1+'_PI'+fname2+'_PI.fits'
-        file_DOLP_star= fdir_star_fltr +fname1+'_DOLP'+fname2+'_DOLP.fits'
+        fname1 ='zpl_p23_make_polar_maps-ZPL_SCIENCE_P23_REDUCED'
+        fname2 ='-zpl_science_p23_REDUCED'
+        file_I_star = fdir_star_fltr + fname1+'_I'+fname2+'_I.fits'
+        file_PI_star = fdir_star_fltr +fname1+'_PI'+fname2+'_PI.fits'
+        file_DOLP_star = fdir_star_fltr +fname1+'_DOLP'+fname2+'_DOLP.fits'
         file_AOLP_star= fdir_star_fltr + fname1+'_AOLP'+fname2+'_AOLP.fits'
     
         file_I_psf = fdir_psf_fltr + fname1+'_I'+fname2+'_I.fits'
