@@ -43,17 +43,25 @@ from scipy.signal import convolve2d as conv2
 # =============================================================================
 #  For the radial profile at a given orientation, theta_f       
 # =============================================================================
-"""""
- ### parameters:
- x0, y0: cordinates of the centre of the ellipse
- a, b: major and minor axis
- theta : orientation of the ellipse
- im : image thatwill be used for making interpolation 
- num: numer of points of x and y grid
-"""""
+
 
   
 def EllRadialProf(x0, y0, a, b, theta, im, num):    
+    
+    """
+     ### parameters:
+     
+     x0, y0: cordinates of the centre of the ellipse
+     
+     a, b: major and minor axis
+     
+     theta : orientation of the ellipse
+     
+     im : image that will be used for making interpolation 
+     
+     num: numer of points of x and y grid
+    """
+    
     
     #-- Extract the line...
     # Make a line with "num" points...
@@ -61,15 +69,15 @@ def EllRadialProf(x0, y0, a, b, theta, im, num):
     theta_f = theta
     u, v = x0, y0 
     z = im
-    theta1 = np.tan(theta)
-    theta2 = -1/theta1
+    theta1 = np.tan(theta) # orientation suivant le grand axe de l'ellipse
+    theta2 = -1/theta1     # orientation suivant le petit axe de l'ellipse
     p1 = v - theta1*u
     p2 = v - theta2*u
   
     #--the second point of theta line
     # -- Solution du systeme d'equation(ellipse et droite de theta1)
     x1 = u -a*b/(np.sqrt((b*(cos(theta) + theta1*sin(theta)))**2+(a*(sin(theta)-theta1*cos(theta)))**2))   # the second point of theta line
-    x1_ = u +a*b/(np.sqrt((b*(cos(theta) + theta1*sin(theta)))**2+(a*(sin(theta)-theta1*cos(theta)))**2))  # the second point of (theta + pi/2) line 
+    x1_ = u + a*b/(np.sqrt((b*(cos(theta) + theta1*sin(theta)))**2+(a*(sin(theta)-theta1*cos(theta)))**2))  # the second point of (theta + pi/2) line 
     y1 = theta1*x1 + p1
     y1_ = theta1*x1_ + p1
   
@@ -85,7 +93,8 @@ def EllRadialProf(x0, y0, a, b, theta, im, num):
     
     
     #num = 100
-    # x, y = np.linspace(x0, x1, num), np.linspace(y0, y1, num)
+    # creation d'une grille des 100 points entre chaque couple de points
+    
     x, y = np.linspace(x0, x1, num), np.linspace(y0, y1, num)
     x_, y_ = np.linspace(x0, x1_, num), np.linspace(y0, y1_, num)
     xx, yy = np.linspace(x0, x2, num), np.linspace(y0, y2, num)
@@ -191,3 +200,31 @@ def LinOrientation(image, Dim):
     xx = np.arange(Dim)
     yy = aa*xx + bb
     return(alpha_rad,alpha_deg )
+
+
+
+
+# =============================================================================
+# Sauvegarde et ouverture d'un fichier fit
+# =============================================================================
+
+
+# save Q
+# fpath_Q = '/home/nbadolo/SIM_CODES/RADMC3D/newest_version/radmc3d-2.0/AymardModels/PolData/Q_data.fits'
+# fits.writeto(fpath_Q, Q, overwrite=True)
+# var_Q = fits.getdata(fpath_Q)
+# var_Q = np.reshape(var_Q,(200,200))
+# #save U
+# fpath_U = '/home/nbadolo/SIM_CODES/RADMC3D/newest_version/radmc3d-2.0/AymardModels/PolData/U_data.fits'
+# fits.writeto(fpath_U, U, overwrite=True)
+# var_U = fits.getdata(fpath_U)
+# var_U = np.reshape(var_U, (200,200))
+# #save CO
+# fpath_CO = '/home/nbadolo/SIM_CODES/RADMC3D/newest_version/radmc3d-2.0/AymardModels/PolData/CO_data.fits'
+# fits.writeto(fpath_CO, CO, overwrite=True)
+# var_CO = fits.getdata(fpath_CO)
+
+# #save SI
+# fpath_SI = '/home/nbadolo/SIM_CODES/RADMC3D/newest_version/radmc3d-2.0/AymardModels/PolData/SI_data.fits'
+# fits.writeto(fpath_SI, SI, overwrite=True)
+# var_SI = fits.getdata(fpath_SI)

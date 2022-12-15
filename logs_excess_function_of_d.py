@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Nov 16 17:08:32 2022
+Created on Wed Nov 16 17:08:40 2022
 
 @author: nbadolo
 """
-
 
 
 
@@ -19,7 +18,7 @@ import numpy as np
 
 # =============================================================================
 # Nous representons ici, pour le grand tableau log, l'échantillon et les objets  
-# resolus les execes infra rouge E_IR en fonction de la magnitude en V
+# resolus les execes infra rouge E_IR en fonction de la distance en pc
 # des étoiles  
 # =============================================================================
 
@@ -42,17 +41,17 @@ df_r = pd.read_excel(file_path_r)
 # ymin = np.min(df["E_IR"])
 # ymax = np.max(df["E_IR"])
 #%%
-fig = plt.figure('Excess  as a function of the V-magnitude')
+fig = plt.figure('Excess  as a function of  d')
 plt.clf()
 fig.set_size_inches(18.5, 10, forward = True)
-#plt.subplot(2,1,1)
-plt.plot(df_l["V"], df_l["E_IR"], 'm+')
-plt.plot(df_s["V"], df_s["E_IR"], '^g')
-plt.plot(df_r["V"], df_r["E_IR"], 'ob')
-plt.legend( ["McDonald et al. 2017, 2012", "the sample", "resolved objects"],prop={'size': 22})
-#plt.title('E_IR = f(V)')
-plt.xlabel('V', size=22)
-plt.ylabel('E_IR', size=22)
+# plt.subplot(2,1,1)
+# plt.plot(df_l["V"], df_l["E_IR"], 'm+')
+# plt.plot(df_s["V"], df_s["E_IR"], 'og')
+# plt.plot(df_r["V"], df_r["E_IR"], 'ob')
+# plt.legend( ["McDonald et al. 2017, 2012", "the sample", "resolved objects"],prop={'size': 20})
+# plt.title('E_IR = f(V)')
+# plt.xlabel('V', size=10)
+# plt.ylabel('E_IR', size=10)
 
 # plt.subplot(2,2,2)
 # plt.plot(df_l["V"], df_l["E12"], 'b+')
@@ -64,14 +63,15 @@ plt.ylabel('E_IR', size=22)
 # plt.ylabel('E12', size=10)
 
 
-# plt.subplot(2,1,2)
-# plt.plot(df_l["d"], np.log10(df_l["E_IR"]), 'm+')
-# plt.plot(df_s["d"], np.log10(df_s["E_IR"]), '^g')
-# plt.plot(df_r["d"], np.log10(df_r["E_IR"]), 'ob')
-# plt.legend(["McDonald et al. 2017, 2012", "the sample", "resolved objects"], prop={'size': 20})
-# plt.title('E_IR = f(d)')
-# plt.xlabel('d', size=10)
-# plt.ylabel('E_IR', size=10)
+#plt.subplot(2,1,2)
+plt.plot(df_l["d"], np.log10(df_l["E_IR"]), 'm+')
+plt.plot(df_s["d"], np.log10(df_s["E_IR"]), '^g')
+plt.plot(df_r["d"], np.log10(df_r["E_IR"]), 'ob')
+plt.legend(["McDonald et al. 2017, 2012", "the sample", "resolved objects"], prop={'size': 22})
+#plt.title('E_IR = f(d)')
+plt.xlabel('d', size=22)
+plt.ylabel('E_IR', size=22)
+
 
 # plt.subplot(2,2,4)
 # plt.plot(df_l["V"], df_l["LIR/L*"], 'b+')
@@ -84,11 +84,11 @@ plt.ylabel('E_IR', size=22)
 
 #plt.title( label = "Excess infrared in relation to key parameters" ,fontsize = 12 ,color = "k" )
 
-plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'E_IR_f_V_magn.pdf', 
+plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'E_IR_f_d.pdf', 
                 dpi=100, bbox_inches ='tight')
 
 
-plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'E_IR_f_V_magn.png', 
+plt.savefig('/home/nbadolo/Bureau/Aymard/These/for_papers/plots/log_paper_plots/' + 'E_IR_f_d.png', 
                 dpi=100, bbox_inches ='tight')
 plt.tight_layout()
 plt.show()

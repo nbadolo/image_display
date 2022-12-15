@@ -118,6 +118,7 @@ def log_image(star_name, obsmod):
         position = (nDim//2,nDim//2)
         size = (nSubDim, nSubDim)
         
+     # lists and arrays   
         x, y = np.meshgrid(np.arange(nSubDim),np.arange(nSubDim)) #cree un tableau 
         sub_v_arr = np.zeros((nFrames, nSubDim, nSubDim))
         Ellips_arr = np.zeros((nFrames, n_threshold,nSubDim,nSubDim))
@@ -227,17 +228,10 @@ def log_image(star_name, obsmod):
                       Ell_rot[0,k] = Ell_rot[0,k] + x_f
                       Ell_rot[1,k] = Ell_rot[1,k] + y_f
                   #return Ell_rot.ravel() # .ravel permet de passer de deux dimension à une seule
-                      Ell_rot_arr[i][j][:,k] = Ell_rot[:,k] 
-                  
-                  # M_rot2 = np.array([[cos(alpha_rad) , -sin(alpha_rad)],[sin(alpha_rad) , cos(alpha_rad)]])
-                  # Ell_rot2 = np.zeros((2, Ell.shape[1]))
-                  # for k in range(Ell.shape[1]):
-                  #     Ell_rot2[:,k] = np.dot(M_rot2,Ell[:,k])
-                  #     Ell_rot2[0,k] = Ell_rot2[0,k] + x_f
-                  #     Ell_rot2[1,k] = Ell_rot2[1,k] + y_f
+                      Ell_rot_arr[i][j][:,k] = Ell_rot[:,k] # ajout des cooordonnées du centre de l'ellipse (changement de repère)
                   
                   
-                      
+                   # plots   
                   plt.figure('white ellipse contour at ' + f'{strs[j]}' +' for ' + f'{lst_Frame_name[i]}'+' of '+ f'{star_name}')
                   plt.clf()
                   plt.imshow(np.log10(Ellips_arr[i][j]+np.abs(np.min(Ellips_arr[i][j]))+10), cmap ='inferno', vmin=Vmin_w[i][j], vmax=Vmax_w[i][j], origin='lower')
@@ -251,25 +245,6 @@ def log_image(star_name, obsmod):
                   plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/fully_automatic/' +'white_ellips_contour_at_' + strs[j] + '_for_' + f'{lst_Frame_name[i]}' + '.png', 
                               dpi=100, bbox_inches ='tight')
                 
-                  
-                  
-                  # plt.figure('white ellipse contour for linear reg at ' + f'{strs[j]}')
-                  # plt.clf()
-                  # plt.imshow(np.log10(Ellips_arr[i]+np.abs(np.min(Ellips_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_w[i], origin='lower')
-                  #   #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
-                  # plt.plot( Ell_rot2[0,:] , Ell_rot2[1,:],'darkorange' ) #rotated fit
-                  #   #plt.grid(color='lightgray',linestyle='--')
-                  # plt.plot( xx , yy,'r' )
-                  # plt.show()
-                  # plt.title('white ellipse contour at ' + f'{strs[j]}')
-                  # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] + '.pdf', 
-                  #             dpi=100, bbox_inches ='tight')
-                  
-                  
-                  
-                  # plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/SW_Col/plots/fits/log_scale/' +'white_ellips_contour_at_' + strs[j] +  '.png', 
-                  #     dpi=100, bbox_inches ='tight')
-                  # plt.tight_layout()
                   
                   
                   
@@ -309,7 +284,7 @@ def log_image(star_name, obsmod):
                   
               plt.figure('full image and all the  contours' + f'{strs[j]}')
               plt.clf()
-              plt.imshow(np.log10(sub_v_arr[i]+np.abs(np.min(sub_v_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i][j], vmax=Vmax_r[i][j], origin='lower')
+              plt.imshow(np.log10(sub_v_arr[i]+np.abs(np.min(sub_v_arr[i]))+10), cmap ='inferno', vmin=Vmin_r[i][j], vmax=Vmax_r[i][j], origin='lower')
               #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
               for j in range(n_threshold): 
                   

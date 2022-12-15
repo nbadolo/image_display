@@ -344,3 +344,5 @@ def log_image(star_name, obsmod):
     print(msg2)
     msg= 'reduction okay for ' + star_name
     return(msg)
+
+log_image('SW_Col', 'both')
