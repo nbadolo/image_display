@@ -137,9 +137,6 @@ def log_image(star_name, obsmod):
         strs = [str(x*100) + ' %' for x in lst_threshold]
 
 
-
-
-
     #opening file
         for i in range(nFrames):
               hdu = fits.open(file_lst[i])   

@@ -6,7 +6,11 @@ Created on Fri Oct 21 11:40:42 2022
 @author: nbadolo
 """
 
-
+"""
+#
+# Pour la comparaison entre la polarisation linéaire standart  et la polarisation azimutale de Engler
+# 
+"""
 
 
 import numpy as np

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon May 23 14:29:41 2022
+Created on Wed Feb  1 14:19:25 2023
 
 @author: nbadolo
 """
 
 """
-Code simplifié pour l'affichage simultané de tous les alone et both  des étoiles 
-sans psf:  flux d'intensité
+Code simplifié pour les carte de couleurs des étoiles du deuxieme lot. Sans prendre en compte
+leur psf:  
 """
 
 import numpy as np
@@ -22,12 +22,36 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from matplotlib.pyplot import Figure, subplot
 import webbrowser
+
+#%%
+
+
+# Parameters 
+nDim = 1024
+nSubDim = 200 # plage de pixels que l'on veut afficher
+size = (nSubDim, nSubDim)
+
+pix2mas = 3.4  #en mas/pix
+x_min = -pix2mas*nSubDim//2
+x_max = pix2mas*(nSubDim//2-1)
+y_min = -pix2mas*nSubDim//2
+y_max = pix2mas*(nSubDim//2-1)
+X, Y= np.meshgrid(np.linspace(-100,99,200), np.linspace(-100,99,200))
+X_, Y_= np.meshgrid(np.linspace(-nDim/2,nDim/2-1,nDim), np.linspace(-nDim/2,nDim/2-1,nDim))
+
+X *= pix2mas
+Y *= pix2mas
+X_ *= pix2mas
+Y_ *= pix2mas
+
+X_step = 10
+X_step_ = 50
 #%% 
 def log_image(star_name, obsmod):
 #%%       
-    fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+ '/'
+    fdir= '/home/nbadolo/Bureau/Aymard/Donnees_sph/log/News_stars/'+star_name+ '/'
     fdir_star = fdir + 'star/'+obsmod+ '/' 
-    fdir_psf = fdir +'psf/'+obsmod+ '/'
+    fdir_psf = fdir +'psf/' +obsmod+ '/'
     lst_fltr_star1 = os.listdir(fdir_star)
     #print(lst_fltr_star1)
     n_lst_fltr_star1 = len(lst_fltr_star1)
@@ -59,34 +83,9 @@ def log_image(star_name, obsmod):
         
         file_lst2 = [file_I_star, file_PI_star, file_DOLP_star, file_AOLP_star]
         nFrames2 = len(file_lst2)
-        nDim = 1024
-        nSubDim = 200 # plage de pixels que l'on veut afficher
-        size = (nSubDim, nSubDim)
-         # nDimfigj = [3, 4, 5]
-         # nDimfigk = [6, 7, 8]
     
-        pix2mas = 3.4  # en mas/pix
-        x_min = -pix2mas*nSubDim//2
-        x_max = pix2mas*(nSubDim//2-1)
-        y_min = -pix2mas*nSubDim//2
-        y_max = pix2mas*(nSubDim//2-1)
-        X, Y= np.meshgrid(np.linspace(-100,99,200), np.linspace(-100,99,200))
-        X_, Y_= np.meshgrid(np.linspace(-nDim/2,nDim/2-1,nDim), np.linspace(-nDim/2,nDim/2-1,nDim))
-        
-        X *= pix2mas
-        Y *= pix2mas
-        X_ *= pix2mas
-        Y_ *= pix2mas
-        
-        X_step = 10
-        X_step_ = 50
-        
-         #mean_sub_v_arr = np.empty((nFrames,nSubDim//2-1))
         mean_sub_v_arr2 = np.empty((nFrames2,nSubDim//2-1))
-         #mean_sub_v_arr3 = np.empty((nFrames3,nSubDim//2-1))
-         #sub_v_arr = np.empty((nFrames,nSubDim,nSubDim))
         sub_v_arr2 = np.empty((nFrames2,nSubDim,nSubDim))
-         #sub_v_arr3 = np.empty((nFrames3,nSubDim,nSubDim))
         im_name_lst = ['I','PI','DOLP', 'AOLP']
         Vmin2 = np.empty((nFrames2))
         Vmax2 = np.empty((nFrames2))
@@ -180,16 +179,16 @@ def log_image(star_name, obsmod):
                       if i == 3:
                           plt.xlabel('Relative R.A.(mas)', size=10)
                   
-        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/News_stars/'+star_name+
                           '/plots/'+ star_name +'_' + fltr + '_Cam1' + '.pdf', 
                           dpi=100, bbox_inches ='tight')
         
         
-        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+        plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/News_stars/'+star_name+
                           '/plots/'+ star_name +'_' + fltr + '_Cam1' + '.png', 
                           dpi=100, bbox_inches ='tight')
         plt.tight_layout()
-        msg1='reduction okay for '+ star_name+'_Cam1'
+        msg1='image display ended for '+ star_name+'_Cam1'
          #return(msg1)
         print(msg1)
         
@@ -207,35 +206,9 @@ def log_image(star_name, obsmod):
          file_lst2_ = [file_I_star, file_PI_star, file_DOLP_star, file_AOLP_star]
          nFrames2_ = len(file_lst2_)
         
-         nDim = 1024
-         nSubDim = 200 # plage de pixels que l'on veut afficher
-         size = (nSubDim, nSubDim)
-         # nDimfigj = [3, 4, 5]
-         # nDimfigk = [6, 7, 8]
-         vmin0 = 3.5
-         vmax0 = 15
-         pix2mas = 6.8  #en mas/pix
-         x_min = -pix2mas*nSubDim//2
-         x_max = pix2mas*(nSubDim//2-1)
-         y_min = -pix2mas*nSubDim//2
-         y_max = pix2mas*(nSubDim//2-1)
-         X, Y= np.meshgrid(np.linspace(-100,99,200), np.linspace(-100,99,200))
-         X_, Y_= np.meshgrid(np.linspace(-nDim/2,nDim/2-1,nDim), np.linspace(-nDim/2,nDim/2-1,nDim))
-        
-         X *= pix2mas
-         Y *= pix2mas
-         X_ *= pix2mas
-         Y_ *= pix2mas
-        
-         X_step = 10
-         X_step_ = 50
-        
-         #mean_sub_v_arr = np.empty((nFrames,nSubDim//2-1))
+         
          mean_sub_v_arr2_ = np.empty((nFrames2_,nSubDim//2-1))
-         #mean_sub_v_arr3_ = np.empty((nFrames3,nSubDim//2-1))
-         #sub_v_arr = np.empty((nFrames,nSubDim,nSubDim))
          sub_v_arr2_ = np.empty((nFrames2_,nSubDim,nSubDim))
-         #sub_v_arr3_ = np.empty((nFrames3,nSubDim,nSubDim))
          im_name_lst = ['I','PI','DOLP']
          Vmin2_ = np.empty((nFrames2_))
          Vmax2_ = np.empty((nFrames2_))
@@ -330,19 +303,19 @@ def log_image(star_name, obsmod):
                        if i == 3:
                            plt.xlabel('Relative R.A.(mas)', size=10)
             
-         plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+         plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/News_stars/'+star_name+
                             '/plots/'+star_name+'_' + fltr_ +'_Cam2' + '.pdf', 
                             dpi=100, bbox_inches ='tight')
            
            
-         plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/'+star_name+
+         plt.savefig('/home/nbadolo/Bureau/Aymard/Donnees_sph/log/News_stars/'+star_name+
                             '/plots/'+star_name+'_' + fltr_ +'_Cam2' + '.png', 
                             dpi=100, bbox_inches ='tight')
          plt.tight_layout()
        
-    msg2='reduction okay for '+ star_name +'_Cam2'
+    msg2='image display ended for '+ star_name +'_Cam2'
     print(msg2)
-    msg= 'reduction okay for ' + star_name
+    msg= 'image display ended for ' + star_name
     return(msg)
 
-log_image('Y_Scl', 'both')
+#log_image('SW_Col', 'both')

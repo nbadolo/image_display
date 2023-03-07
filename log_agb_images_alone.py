@@ -205,4 +205,5 @@ def log_image(star_name):
     return(msg)
 
 
+#log_image('SW_Col')
     

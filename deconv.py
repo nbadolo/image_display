@@ -10,6 +10,7 @@ Created on Thu Jun  9 09:59:06 2022
 Code de déconvolution pour les etoiles mises a part
 """
 
+#Packages
 import numpy as np
 import os
 from astropy.io import fits
@@ -23,6 +24,26 @@ import math
 import matplotlib.colors as colors
 from matplotlib.pyplot import Figure, subplot
 
+
+# Parameters 
+nDim = 1024
+nSubDim = 200 # plage de pixels que l'on veut afficher
+size = (nSubDim, nSubDim)
+pix2mas = 3.4  #en mas/pix
+x_min = -pix2mas*nSubDim//2
+x_max = pix2mas*(nSubDim//2-1)
+y_min = -pix2mas*nSubDim//2
+y_max = pix2mas*(nSubDim//2-1)
+X, Y= np.meshgrid(np.linspace(-100,99,200), np.linspace(-100,99,200))
+X_, Y_= np.meshgrid(np.linspace(-nDim/2,nDim/2-1,nDim), np.linspace(-nDim/2,nDim/2-1,nDim))
+
+X *= pix2mas
+Y *= pix2mas
+X_ *= pix2mas
+Y_ *= pix2mas
+
+X_step = 10
+X_step_ = 50
 #%% 
 def log_image(star_name, obsmod):   
 #%%        
@@ -87,31 +108,6 @@ def log_image(star_name, obsmod):
         nFrames3 = len(file_lst3)
         nFrames_d = nFrames2
     
-   
-        nDim = 1024
-        nSubDim = 200 # plage de pixels que l'on veut afficher
-        n_iter = 50 # nombre diterations pour la deconvolution
-        size = (nSubDim, nSubDim)
-        # nDimfigj = [3, 4, 5]
-        # nDimfigk = [6, 7, 8]
-        vmin0 = 3.5
-        vmax0 = 15
-        pix2mas = 6.8  #en mas/pix
-        x_min = -pix2mas*nSubDim//2
-        x_max = pix2mas*(nSubDim//2-1)
-        y_min = -pix2mas*nSubDim//2
-        y_max = pix2mas*(nSubDim//2-1)
-        X, Y= np.meshgrid(np.linspace(-100,99,200), np.linspace(-100,99,200))
-        X_, Y_= np.meshgrid(np.linspace(-nDim/2,nDim/2-1,nDim), np.linspace(-nDim/2,nDim/2-1,nDim))
-        
-        X *= pix2mas
-        Y *= pix2mas
-        X_ *= pix2mas
-        Y_ *= pix2mas
-        
-        X_step = 10
-        X_step_ = 50
-        
         mean_sub_v_arr2 = np.empty((nFrames2,nSubDim//2-1))
         mean_sub_v_arr3 = np.empty((nFrames3,nSubDim//2-1))
         sub_v_arr2 = np.empty((nFrames2,nSubDim,nSubDim))
@@ -168,7 +164,7 @@ def log_image(star_name, obsmod):
                   Vmin2[i] = np.min(np.log10(sub_v_arr2[i]))
                   Vmax2[i] = np.max(np.log10(sub_v_arr2[i]))  
          
-              U2 = sub_v_arr2[2]*np.cos(np.pi*sub_v_arr2[3]/180)
+              U2 = sub_v_arr2[2]*np.cos(np.pi*sub_v_arr2[3]/180) 
               V2 = sub_v_arr2[2]*np.sin(np.pi*sub_v_arr2[3]/180)
               
               
@@ -204,8 +200,7 @@ def log_image(star_name, obsmod):
         for i in range (nFrames_d):   
             deconvolved_RL = Margaux_RL_deconv(sub_v_arr2[i], sub_v_arr3[0], 5) # deconvolution de toutes les cartes par l'int de la psf
             deconv_arr[i]  = deconvolved_RL
-            
-            
+                        
             # deconvolved_RL2 = arl.Margaux_RL_deconv(sub_v_arr2[i], sub_v_arr3[i], 15) #  deconvolution int par int, int pol par int pol 
             # deconv_arr2[i]  = deconvolved_RL2
             
@@ -498,33 +493,9 @@ def log_image(star_name, obsmod):
         nFrames3_ = len(file_lst3_)
         nFrames_d_ = nFrames2_
     
-        nDim = 1024
-        nSubDim = 200 # plage de pixels que l'on veut afficher
-        size = (nSubDim, nSubDim)
-        # nDimfigj = [3, 4, 5]
-        # nDimfigk = [6, 7, 8]
-        vmin0 = 3.5
-        vmax0 = 15
-        pix2mas = 6.8  #en mas/pix
-        x_min = -pix2mas*nSubDim//2
-        x_max = pix2mas*(nSubDim//2-1)
-        y_min = -pix2mas*nSubDim//2
-        y_max = pix2mas*(nSubDim//2-1)
-        X, Y= np.meshgrid(np.linspace(-100,99,200), np.linspace(-100,99,200))
-        X_, Y_= np.meshgrid(np.linspace(-nDim/2,nDim/2-1,nDim), np.linspace(-nDim/2,nDim/2-1,nDim))
-        
-        X *= pix2mas
-        Y *= pix2mas
-        X_ *= pix2mas
-        Y_ *= pix2mas
-        
-        X_step = 10
-        X_step_ = 50
-        
-        #mean_sub_v_arr = np.empty((nFrames,nSubDim//2-1))
+    
         mean_sub_v_arr2_ = np.empty((nFrames2,nSubDim//2-1))
         mean_sub_v_arr3_ = np.empty((nFrames3,nSubDim//2-1))
-        #sub_v_arr = np.empty((nFrames,nSubDim,nSubDim))
         sub_v_arr2_ = np.empty((nFrames2,nSubDim,nSubDim))
         sub_v_arr3_ = np.empty((nFrames3,nSubDim,nSubDim))
         deconv_arr_ = np.empty((nFrames_d,nSubDim,nSubDim))

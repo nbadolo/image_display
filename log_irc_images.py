@@ -68,7 +68,7 @@ def log_image(star_name, obsmod):
          # nDimfigj = [3, 4, 5]
          # nDimfigk = [6, 7, 8]
     
-        pix2mas = 6.8  #en mas/pix
+        pix2mas = 3.4  #en mas/pix
         x_min = -pix2mas*nSubDim//2
         x_max = pix2mas*(nSubDim//2-1)
         y_min = -pix2mas*nSubDim//2

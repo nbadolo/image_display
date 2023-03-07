@@ -8,18 +8,13 @@ Created on Mon Oct 17 13:22:54 2022
 
 
 """
-module de profil radial
+Personal package that contain some usefull modules I have writed
 """
 
- # =============================================================================
- # Personal package that contain some usefull modules I have writed
- #     
- # =============================================================================
+ 
 
-"""
+
 ## used packages
-"""
-
 import numpy as np
 from math import pi, cos, sin, atan
 import scipy.ndimage
@@ -36,10 +31,6 @@ from scipy.signal import convolve2d as conv2
 
 
 
-
-
-
-
 # =============================================================================
 #  For the radial profile at a given orientation, theta_f       
 # =============================================================================
@@ -49,17 +40,50 @@ from scipy.signal import convolve2d as conv2
 def EllRadialProf(x0, y0, a, b, theta, im, num):    
     
     """
-     ### parameters:
+    parameters
+    ----------
      
-     x0, y0: cordinates of the centre of the ellipse
+     x0, y0 : cordinates of the centre of the ellipse
      
-     a, b: major and minor axis
+     a, b : major and minor axis
      
      theta : orientation of the ellipse
      
      im : image that will be used for making interpolation 
      
-     num: numer of points of x and y grid
+     num : number of points of x and y grid
+     
+    returns :
+    ----------
+     x0 :
+         
+     y0 :
+     
+     x1 :
+     
+     y1 :
+         
+     x2 :
+         
+     y2 :
+         
+     z :
+          
+     zi1 :
+          
+     zi2 :
+          
+     x1_
+    
+     y1_:
+        
+     x2_:
+        
+     y2_ :
+        
+     zi1_ :
+         
+     zi2_ :
     """
     
     
@@ -116,17 +140,18 @@ def EllRadialProf(x0, y0, a, b, theta, im, num):
 #=======================================================================
 #Fonction de deconvolution des cartes reduites du log agb mises à part
 #======================================================================
-"""
-## Inputs :   
-    science_im : image we want to applie the deconvolution
-    PSF_im :     noise we want to extract from science image
-    nb_iter :    nomber of iteration
-    
-## Outputs :
-    
-"""
+
 
 def Margaux_RL_deconv(science_im, PSF_im, nb_iter):
+    """
+    Inputs :   
+        science_im : image we want to applie the deconvolution
+        PSF_im :     noise we want to extract from science image
+        nb_iter :    nomber of iteration
+        
+    Outputs :
+        
+    """
     #register their sizes
     size_im = science_im.shape
     idim = size_im[0]
@@ -174,19 +199,18 @@ def Margaux_RL_deconv(science_im, PSF_im, nb_iter):
 # utilisation d'une regression linéaire pour déterminer l'orientation dun nuage 
 # de points d'une image 
 # =============================================================================
-"""
-## arguments:
-    image : l'image dont on veut extraire les points
-    Dim: les dimensions de l'image, sa taille en gros
-
-## les elements en sortie :
-    alpha_rad : l'orientation de la regressrion en radian
-    alpha_deg : l'orientation de la regressrion en degre
-
-"""
 
 def LinOrientation(image, Dim):
-    
+    """
+    inputs:
+        image : l'image dont on veut extraire les points
+        Dim: les dimensions de l'image, sa taille en gros
+
+    outputs:
+        alpha_rad : l'orientation de la regressrion en radian
+        alpha_deg : l'orientation de la regressrion en degre
+
+    """
     index = np.argwhere(image) # recupère les indices  des points dont l'intensité est non nulle 
     X = index[:,1]
     Y = index[:,0]

@@ -6,13 +6,10 @@ Created on Tue Oct 11 11:10:49 2022
 @author: nbadolo
 """
 
-
 """
 # Code pour la determination  des fits d'ellipses et l'estimation de la taille de ces ellipses basée sur ces ellipses
 
 """
-
-
 
 #packages
 import numpy as np

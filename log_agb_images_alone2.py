@@ -258,7 +258,7 @@ def log_image(star_name, obsmod):
                                         vmax=Vmax3[1], extent = [x_min , x_max, y_min , y_max])   
                     plt.colorbar(label='ADU in log$_{10}$ scale')       
                     q_ = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U3[::X_step,::X_step], V3[::X_step,::X_step])
-                    plt.quiverkey(q_, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.03  ', labelpos='E')
+                    plt.quiverkey(q_, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.06  ', labelpos='E')
                           # plt.text(-17*size[0]//25., 3*size[1]//2, im_name_lst[3], color='cyan',
                           #            fontsize='x-small', ha='center')      
                     plt.text(size[0]//10, 2*pix2mas*size[1]//6., 
@@ -271,7 +271,7 @@ def log_image(star_name, obsmod):
                                          vmax=Vmax3[1], extent = [x_min , x_max, y_min , y_max])   
                     plt.colorbar(label='ADU in log$_{10}$ scale')       
                     q_ = plt.quiver(X[::X_step,::X_step],Y[::X_step,::X_step],U3[::X_step,::X_step], V3[::X_step,::X_step])
-                    plt.quiverkey(q_, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.03', labelpos='E')
+                    plt.quiverkey(q_, X = 0.1, Y = 1.03, U = 0.006, label='vect. n. scale 0.06', labelpos='E')
                           # plt.text(-17*size[0]//25., 3*size[1]//2, im_name_lst[3], color='cyan',
                           #         fontsize='x-small', ha='center') 
                           
@@ -327,5 +327,5 @@ def log_image(star_name, obsmod):
     msg='reduction okay for '+ star_name
     return(msg)
 
-
+log_image('SW_Col', 'both')
     

@@ -246,7 +246,8 @@ for i in range(nFrames):
 
           plt.figure('full image and contour at ' + f'{strs[j]}')
           plt.clf()
-          plt.imshow(np.log10(sub_v_arr[i]+np.abs(np.min(sub_v_arr[i]))+10), cmap ='inferno', vmin=Vmin_w[i], vmax=Vmax_r[i], origin='lower')
+
+          plt.imshow(np.log10(sub_v_arr[i]+np.abs(np.min(sub_v_arr[i]))+10), cmap ='inferno', vmin = Vmin_w[i], vmax=Vmax_r[i], origin='lower')
           #plt.plot( u + Ell_rot[0,:] , v + Ell_rot[1,:],'darkorange' )  #rotated ellipse
           plt.plot( Ell_rot[0,:] , Ell_rot[1,:],'darkorange' ) #rotated fit
           #plt.grid(color='lightgray',linestyle='--')
